@@ -1,0 +1,50 @@
+﻿@using WebMatrix.Data;
+
+@{
+    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+
+    if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
+    {
+        Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
+        Validation.RequireField("password", "Er moet een wachtwoord in worden gevuld");
+        var username = Request.Form["username"];
+        var password = Request.Form["password"];
+
+        if (Functions.Login(username, password))
+        {
+            //You've successfully logged in (pop up verdwijnen)
+        }
+        else
+        {
+            Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
+        }
+    }
+}
+<form method="post">
+    <input type="text" name="username" />
+    <input type="password" name="password" />
+    <input type="submit" name="submitLogin" value="" />
+
+
+
+    <table class="table table-light">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cadeau</th>
+                <th scope="col">Prioriteit</th>
+                <th scope="col"><button class="btn" name="addcolumn" value="AddRow">Add Column</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var row in)toe te voegen
+            {*@
+            <tr>
+                <td> <input type="text" name="row1"/></td>
+                <td> <input type="text" name="row2"/></td>
+                <td> <input type="text" name="row3"/></td>
+            </tr>
+            @*}*@
+        </tbody>
+    </table>
+</form>
