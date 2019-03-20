@@ -3,6 +3,21 @@
 @{
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
 
+
+
+
+    var studieOpleiding = Request.Form["AddOpleiding"];
+    var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
+    var studieniveau = Request.Form["AddNiveau"];
+    var studieVariant = Request.Form["AddVariant"];
+    var studieFlexOnd = Request.Form["AddFlexOnd"];
+    var studieVraFin = Request.Form["AddVraFin"];
+    var studieVerTra = Request.Form["AddVerTra"];
+    var studieSpeTra = Request.Form["AddSpeTra"];
+    var studieVesPla = Request.Form["AddVesPla"];
+    var querySelect = "SELECT studiejaar FROM Leerjaar WHERE leerjaarID='1'";
+    var studieJaar = db.QuerySingle(querySelect);
+
     if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
     {
         Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
@@ -19,6 +34,12 @@
             Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
         }
     }
+
+    if(IsPost && Request.Form["addOverzicht"] == "Toevoegen")
+    {
+        Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
+    }
+
 }
 <form method="post">
     <input type="text" name="username" />
@@ -30,21 +51,103 @@
     <table class="table table-light">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Cadeau</th>
-                <th scope="col">Prioriteit</th>
-                <th scope="col"><button class="btn" name="addcolumn" value="AddRow">Add Column</button></th>
+                <th scope="col"></th>
+                <th scope="col">Fase / Leerjaar / Module</th>
+                <th scope="col">Code: fase/leerjaar/module</th>
+                <th scope="col">Code: Onderwijseenheid</th>
+                <th scope="col">Coördinator</th>
+                <th scope="col">Keuze/Verplicht</th>
+                <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                <th scope="col">Studiepunten</th>
+                <th scope="col">Uitkeren op hoofdvak</th>
+                <th scope="col">Wijze van waardering</th>
+                <th scope="col">Slagingsnorm</th>
+                <th scope="col">Woord beoordeeling ja/nee</th>
+                <th scope="col">Geldig vanaf:</th>
+                <th scope="col">Gelding t/m</th>
+                <th scope="col">Code toets</th>
+                <th scope="col">Titel toets</th>
+                <th scope="col">Wijze van toetsing</th>
+                <th scope="col">Toetsduur</th>
+                <th scope="col">Wijze van waardering</th>
+                <th scope="col">Slagingsnorm</th>
+                <th scope="col">Woord beoordeling ja/nee</th>
+                <th scope="col">Weging</th>
+                <th scope="col">Toetsmoment 1</th>
+                <th scope="col">Toetsmoment 2</th>
+                <th scope="col">Volgordelijkheid</th>
+                <th scope="col">Taal</th>
+                <th scope="col">Kladwerk ja/nee</th>
+                <th scope="col">Examinator</th>
             </tr>
         </thead>
         <tbody>
-            @*@foreach (var row in)toe te voegen
-            {*@
+            @foreach (var column in )
+                {
             <tr>
-                <td> <input type="text" name="row1"/></td>
-                <td> <input type="text" name="row2"/></td>
-                <td> <input type="text" name="row3"/></td>
+                <td><input type="button" name="AddRow" value="+" /></td>
+                <td></td>
             </tr>
-            @*}*@
+            }
         </tbody>
     </table>
+
+
+</form>
+<form method="post">
+<table class="table table-light">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">LEERPLAN</th>
+            <td> @studieJaar</td>
+        </tr>
+        <tr>
+            <th scope="col">Opleiding</th>
+            <td> @studieOpleiding</td>
+            <td><input type="text" name="AddOpleiding" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Croho-nummer</th>
+            <td> @studieCrohonummer</td>
+            <td><input type="text" name="AddCroNummer" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Niveau</th>
+            <td> @studieniveau</td>
+            <td><input type="text" name="AddNiveau" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Variant</th>
+            <td> @studieVariant</td>
+            <td><input type="text" name="AddVariant" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Flexibel onderwijs</th>
+            <td> @studieFlexOnd</td>
+            <td><input type="text" name="AddFlexOnd" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Vraag financiering</th>
+            <td> @studieVraFin</td>
+            <td><input type="text" name="AddVraFin" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Versneld traject</th>
+            <td> @studieVerTra</td>
+            <td><input type="text" name="AddVerTra" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Speciaal traject</th>
+            <td> @studieSpeTra</td>
+            <td><input type="text" name="AddSpeTra" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <th scope="col">Vestigings plaatsen</th>
+            <td> @studieVesPla</td>
+            <td><input type="text" name="AddVesPla" placeholder="Naam opleiding..." value="" /></td>
+        </tr>
+        <tr>
+            <button name="addOverzicht" value="Toevoegen">Toevoegen</button>
+        </tr>
+</table>
 </form>

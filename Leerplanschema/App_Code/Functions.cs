@@ -32,4 +32,18 @@ public class Functions
 
         return false;
     }
+
+    public static void AddOverzicht(string studieOpleiding, int studieCrohonummer, string studieniveau, string studieVariant, string studieFlexOnd, string studieVraFin, string studieVerTra, string studieSpeTra, string studieVesPla)
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var query = "INSERT INTO Studie_overzicht (stuOpleiding, stuCroNr, stuNiveau, stuVariant, stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8)";
+        db.Execute(query, studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
+    }
+
+    public static IEnumerable<dynamic> AddEmptyRow()
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+
+
+    }
 }
