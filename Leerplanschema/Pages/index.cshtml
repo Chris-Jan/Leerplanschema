@@ -18,6 +18,37 @@
     var querySelect = "SELECT studiejaar FROM Leerjaar WHERE leerjaarID='1'";
     var studieJaar = db.QuerySingle(querySelect);
 
+    var leerjaar = Convert.ToInt32(Request.Form["leerjaar"]);
+    var periode = Convert.ToInt32(Request.Form["periode"]);
+    var onderdeelnaam = Request.Form["fsm"];
+    var codeleerjaar = Request.Form["cflm"];
+    var codeonderwijseenheid = Request.Form["conderwijs"];
+    var coordinator = Request.Form["Coördinator"];
+    var keuze = Request.Form["keuze"];
+    var vak = Request.Form["titel"];
+    var ec = Convert.ToInt32(Request.Form["studiepunten"]);
+    var uitkerenhoofdvak = Request.Form["hoofdvak"];
+    var wijzewaardering = Request.Form["waardering"];
+    var slagingsnormond = Request.Form["slagingsnorm"];
+    var woordbeoordeeldond = Request.Form["beoordeeld"];
+    var geldigvanaf = Request.Form["vanaf"];
+    var geldigtm = Request.Form["totmet"];
+    var toetscode = Request.Form["codetoets"];
+    var toetsnaam = Request.Form["titeltoets"];
+    var toetswijze = Request.Form["wijze"];
+    var toetsduur = Convert.ToInt32(Request.Form["toetsduur"]);
+    var waardering = Request.Form["wijzewaardering"];
+    var slagingnsnorm = Request.Form["slagingsnormen"];
+    var wordbeoordeeld = Request.Form["wordtbeoordeeld"];
+    var weging = Convert.ToInt32(Request.Form["weging"]);
+    var toetsmoment1 = Request.Form["toetsmoment1"];
+    var toetsmoment2 = Request.Form["toetsmoment2"];
+    var volgordelijkheid = Request.Form["volgordelijkheid"];
+    var taal = Request.Form["taal"];
+    var eindwerk = Request.Form["eindwerk"];
+    var examinator = Request.Form["examinator"];
+
+
     if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
     {
         Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
@@ -35,11 +66,14 @@
         }
     }
 
-    if(IsPost && Request.Form["addOverzicht"] == "Toevoegen")
+    if (IsPost && Request.Form["addOverzicht"] == "Toevoegen")
     {
         Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
     }
-
+    if (IsPost && Request.Form["SchemaAdd"]=="Add")
+    {
+        Functions.InsertTable(leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, wordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
+    }
 }
 <form method="post">
     <input type="text" name="username" />
@@ -80,20 +114,54 @@
                 <th scope="col">Kladwerk ja/nee</th>
                 <th scope="col">Examinator</th>
             </tr>
+
         </thead>
         <tbody>
-            @foreach (var column in )
+            @foreach (var row in  )
                 {
+
+                }
             <tr>
                 <td><input type="button" name="AddRow" value="+" /></td>
                 <td></td>
             </tr>
-            }
         </tbody>
     </table>
-
-
+</form>   
+<form method="post">
+    <input type="text" name="leerjaar" value="" />
+    <input type="text" name="periode" value="" />
+    <input type="text" name="fsm" value="" />
+    <input type="text" name="cflm" value="" />
+    <input type="text" name="conderwijs" value="" />
+    <input type="text" name="Coördinator" value="" />
+    <input type="text" name="keuze" value="" />
+    <input type="text" name="titel" value="" />
+    <input type="text" name="studiepunten" value="" />
+    <input type="text" name="hoofdvak" value="" />
+    <input type="text" name="waardering" value="" />
+    <input type="text" name="slagingsnorm" value="" />
+    <input type="text" name="beoordeeld" value="" />
+    <input type="text" name="vanaf" value="" />
+    <input type="text" name="totmet" value="" />
+    <input type="text" name="codetoets" value="" />
+    <input type="text" name="titeltoets" value="" />
+    <input type="text" name="wijze" value="" />
+    <input type="text" name="toetsduur" value="" />
+    <input type="text" name="wijzewaardering" value="" />
+    <input type="text" name="slagingsnormen" value="" />
+    <input type="text" name="wordtbeoordeeld" value="" />
+    <input type="text" name="weging" value="" />
+    <input type="text" name="toetsmoment1" value="" />
+    <input type="text" name="toetsmoment2" value="" />
+    <input type="text" name="volgordelijkheid" value="" />
+    <input type="text" name="taal" value="" />
+    <input type="text" name="kladwerk" value="" />
+    <input type="text" name="examinator" value="" />
+    <input type="submit" name="SchemaAdd" value="Add" />
 </form>
+
+
 <form method="post">
 <table class="table table-light">
     <thead class="thead-dark">
