@@ -43,7 +43,16 @@ public class Functions
     public static IEnumerable<dynamic> AddEmptyRow()
     {
         Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var query = "SELECT "
 
+    }
 
+    public static void InsertTable(int leerjaar, int periode, string onderdeelnaam, string codeleerjaar, string codeonderwijseenheid, string coordinator, string keuze, string vak, int ec, string uitkerenhoofdvak, string wijzewaardering, string slagingsnormond, string woordbeoordeeldond, string geldigvanaf, string geldigtm, string toetscode, string toetsnaam, string toetswijze, int toetsduur, string waardering, string slagingnsnorm, string woordbeoordeeld, int weging,  string toetsmoment1, string toetsmoment2, string volgordelijkheid, string taal, string eindwerk, string examinator)
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var query1 = "INSERT INTO Studie_onderdelen (leerjaar, periode, onderdeelnaam,codeonderwijseenheid, codeleerjaar,coordinator, keuze, vak, ec, uitkerenhoofdvak,wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14)";
+        var query2 = "INSERT INTO [Toets] (toetscode, toetsnaam, toetswijze, toetsduur,waardering,slagingsnorm, woordbeoordeeld, weging,toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13) ";
+        db.Execute(query1, leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm);
+        db.Execute(query2, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, woordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
     }
 }
