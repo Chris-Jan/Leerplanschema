@@ -40,10 +40,10 @@ public class Functions
         db.Execute(query, studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
     }
 
-    public static IEnumerable<dynamic> AddEmptyRow()
-    {
-        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+    //public static IEnumerable<dynamic> AddEmptyRow()
+    //{
+    //    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
 
 
-    }
+    //}
 }
