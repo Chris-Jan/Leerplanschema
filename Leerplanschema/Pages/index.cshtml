@@ -1,83 +1,105 @@
 ﻿@using WebMatrix.Data;
 
 @{
-        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
 
 
-        var test = db.Query("SELECT [Studie_onderdelen].leerjaar, [Studie_onderdelen].periode, [Toets].weging FROM [Studie_onderdelen] INNER JOIN [Toets] ON [Studie_onderdelen].onderdeelID = [Toets].studieonderdeel WHERE onderdeelID = 1 ");
-        
-
-
-        var studieOpleiding = Request.Form["AddOpleiding"];
-        var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
-        var studieniveau = Request.Form["AddNiveau"];
-        var studieVariant = Request.Form["AddVariant"];
-        var studieFlexOnd = Request.Form["AddFlexOnd"];
-        var studieVraFin = Request.Form["AddVraFin"];
-        var studieVerTra = Request.Form["AddVerTra"];
-        var studieSpeTra = Request.Form["AddSpeTra"];
-        var studieVesPla = Request.Form["AddVesPla"];
-        var studieJaar =db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
-
-        var leerjaar = Convert.ToInt32(Request.Form["leerjaar"]);
-        var periode = Convert.ToInt32(Request.Form["periode"]);
-        var onderdeelnaam = Request.Form["fsm"];
-        var codeleerjaar = Request.Form["cflm"];
-        var codeonderwijseenheid = Request.Form["conderwijs"];
-        var coordinator = Request.Form["Coördinator"];
-        var keuze = Request.Form["keuze"];
-        var vak = Request.Form["titel"];
-        var ec = Convert.ToInt32(Request.Form["studiepunten"]);
-        var uitkerenhoofdvak = Request.Form["hoofdvak"];
-        var wijzewaardering = Request.Form["waardering"];
-        var slagingsnormond = Request.Form["slagingsnorm"];
-        var woordbeoordeeldond = Request.Form["beoordeeld"];
-        var geldigvanaf = Request.Form["vanaf"];
-        var geldigtm = Request.Form["totmet"];
-        var toetscode = Request.Form["codetoets"];
-        var toetsnaam = Request.Form["titeltoets"];
-        var toetswijze = Request.Form["wijze"];
-        var toetsduur = Convert.ToInt32(Request.Form["toetsduur"]);
-        var waardering = Request.Form["wijzewaardering"];
-        var slagingnsnorm = Request.Form["slagingsnormen"];
-        var wordbeoordeeld = Request.Form["wordtbeoordeeld"];
-        var weging = Convert.ToInt32(Request.Form["weging"]);
-        var toetsmoment1 = Request.Form["toetsmoment1"];
-        var toetsmoment2 = Request.Form["toetsmoment2"];
-        var volgordelijkheid = Request.Form["volgordelijkheid"];
-        var taal = Request.Form["taal"];
-        var eindwerk = Request.Form["eindwerk"];
-        var examinator = Request.Form["examinator"];
+    var test = db.Query("SELECT [Studie_onderdelen].leerjaar, [Studie_onderdelen].periode, [Toets].weging FROM [Studie_onderdelen] INNER JOIN [Toets] ON [Studie_onderdelen].onderdeelID = [Toets].studieonderdeel WHERE onderdeelID = 1 ");
 
 
 
-        if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
+    var studieOpleiding = Request.Form["AddOpleiding"];
+    var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
+    var studieniveau = Request.Form["AddNiveau"];
+    var studieVariant = Request.Form["AddVariant"];
+    var studieFlexOnd = Request.Form["AddFlexOnd"];
+    var studieVraFin = Request.Form["AddVraFin"];
+    var studieVerTra = Request.Form["AddVerTra"];
+    var studieSpeTra = Request.Form["AddSpeTra"];
+    var studieVesPla = Request.Form["AddVesPla"];
+    var studieJaar = "";
+
+    var leerjaar = Convert.ToInt32(Request.Form["leerjaar"]);
+    var periode = Convert.ToInt32(Request.Form["periode"]);
+    var onderdeelnaam = Request.Form["fsm"];
+    var codeleerjaar = Request.Form["cflm"];
+    var codeonderwijseenheid = Request.Form["conderwijs"];
+    var coordinator = Request.Form["Coördinator"];
+    var keuze = Request.Form["keuze"];
+    var vak = Request.Form["titel"];
+    var ec = Convert.ToInt32(Request.Form["studiepunten"]);
+    var uitkerenhoofdvak = Request.Form["hoofdvak"];
+    var wijzewaardering = Request.Form["waardering"];
+    var slagingsnormond = Request.Form["slagingsnorm"];
+    var woordbeoordeeldond = Request.Form["beoordeeld"];
+    var geldigvanaf = Request.Form["vanaf"];
+    var geldigtm = Request.Form["totmet"];
+    var toetscode = Request.Form["codetoets"];
+    var toetsnaam = Request.Form["titeltoets"];
+    var toetswijze = Request.Form["wijze"];
+    var toetsduur = Convert.ToInt32(Request.Form["toetsduur"]);
+    var waardering = Request.Form["wijzewaardering"];
+    var slagingnsnorm = Request.Form["slagingsnormen"];
+    var wordbeoordeeld = Request.Form["wordtbeoordeeld"];
+    var weging = Convert.ToInt32(Request.Form["weging"]);
+    var toetsmoment1 = Request.Form["toetsmoment1"];
+    var toetsmoment2 = Request.Form["toetsmoment2"];
+    var volgordelijkheid = Request.Form["volgordelijkheid"];
+    var taal = Request.Form["taal"];
+    var eindwerk = Request.Form["eindwerk"];
+    var examinator = Request.Form["examinator"];
+
+    if (IsPost && Request.Form["ICT"] == "HBO-ICT")
+    {
+
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+      
+    }
+
+    if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
+    {
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
+    }
+
+    if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
+    {
+        Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
+        Validation.RequireField("password", "Er moet een wachtwoord in worden gevuld");
+        var username = Request.Form["username"];
+        var password = Request.Form["password"];
+
+        if (Functions.Login(username, password))
         {
-            Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
-            Validation.RequireField("password", "Er moet een wachtwoord in worden gevuld");
-            var username = Request.Form["username"];
-            var password = Request.Form["password"];
-
-            if (Functions.Login(username, password))
-            {
-                //You've successfully logged in (pop up verdwijnen)
-            }
-            else
-            {
-                Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
-            }
+            //You've successfully logged in (pop up verdwijnen)
         }
-
-        if (IsPost && Request.Form["addOverzicht"] == "Toevoegen")
+        else
         {
-            Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
-        }
-        if (IsPost && Request.Form["SchemaAdd"] == "Add")
-        {
-            Functions.InsertTable(leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, wordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
+            Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
         }
     }
-    @test <br />
+
+    if (IsPost && Request.Form["addOverzicht"] == "Toevoegen")
+    {
+        Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
+    }
+    if (IsPost && Request.Form["SchemaAdd"] == "Add")
+    {
+        Functions.InsertTable(leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, wordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
+    }
+}
+@test <br />
+
+
+      <form  method="post">
+          <input type="submit" name="ICT" value="HBO-ICT" />
+          <input type="submit" name="ITSM" value="AD-ITSM" />
+          <input type="submit" name="Emmen" value="studie 3" />
+      </form>
+
+
+
+
+
 <form method="post">
     <input type="text" name="username" />
     <input type="password" name="password" />
