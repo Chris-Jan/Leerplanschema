@@ -40,12 +40,12 @@ public class Functions
         db.Execute(query, studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
     }
 
-    //public static IEnumerable<dynamic> AddEmptyRow()
-    //{
-    //    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
-    //    var query = "SELECT "
+    public static IEnumerable<dynamic> AddEmptyRow()
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var query = "SELECT "
 
-    //}
+    }
 
     public static void InsertTable(int leerjaar, int periode, string onderdeelnaam, string codeleerjaar, string codeonderwijseenheid, string coordinator, string keuze, string vak, int ec, string uitkerenhoofdvak, string wijzewaardering, string slagingsnormond, string woordbeoordeeldond, string geldigvanaf, string geldigtm, string toetscode, string toetsnaam, string toetswijze, int toetsduur, string waardering, string slagingnsnorm, string woordbeoordeeld, int weging,  string toetsmoment1, string toetsmoment2, string volgordelijkheid, string taal, string eindwerk, string examinator)
     {
@@ -55,6 +55,4 @@ public class Functions
         db.Execute(query1, leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm);
         db.Execute(query2, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, woordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
     }
-        
-    
 }
