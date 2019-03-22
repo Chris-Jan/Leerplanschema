@@ -1,0 +1,16 @@
+﻿body {
+    font-family: 'CustomFont', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'cera_proregular';
+    src: url('cerapro-regular-webfont.woff2') format('woff2'), url('cerapro-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.discover {
+    color: white;
+}
