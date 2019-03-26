@@ -1,0 +1,107 @@
+﻿@using WebMatrix.Data;
+
+@{
+    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+    var studieJaar = "";
+
+    if (IsPost && Request.Form["ICT"] == "HBO-ICT")
+    {
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+        Functions.SelectStudieoverview("HBO-ICT");
+    }
+
+    if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
+    {
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
+    }
+}
+<body>
+    <form method="post">
+        <input type="submit" name="ICT" value="HBO-ICT" />
+        <input type="submit" name="ITSM" value="AD-ITSM" />
+        <input type="submit" name="Emmen" value="studie 3" />
+    </form>
+
+    <table>
+        <thead class="thead-dark">
+            <tr class="row">
+                <th scope="col">Periode</th>
+                <th scope="col">Fase / Leerjaar / Module</th>
+                <th scope="col">Coördinator</th>
+                <th scope="col">Keuze/Verplicht</th>
+                <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                <th scope="col">Studiepunten</th>
+                <th scope="col">Titel toets</th>
+                <th scope="col">Wijze van toetsing</th>
+                <th scope="col">Slagingsnorm</th> ?
+                <th scope="col">Taal</th>
+                <th scope="col">Examinator</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+            {
+                <tr>
+                    <td>@row.periode</td>
+                    <td>@row.faseleerjaar</td>
+                    <td>@row.coordinator</td>
+                    <td>@row.keuzeverplicht</td>
+                    <td>@row.titelonderwijs</td>
+                    <td>@row.studiepunten</td>
+                    <td>@row.titeltoets</td>
+                    <td>@row.wijzevtoetsing</td>
+                    <td>@row.slagingsnorm</td>
+                    <td>@row.taal</td>
+                    <td>@row.examinator</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+@*Overzicht tabel*@
+@*<table>*@
+    //wip> linken aan BUTTON zoals in adm
+    @*@foreach (var row in Functions.ShowOverzicht())
+    {
+        <tr>
+            <th scope="col">LEERPLAN</th>
+            <td> studiejaar</td>
+        </tr>
+        <tr>
+            <th scope="col">Opleiding</th>
+            <td> @row.stuOpleiding</td>
+        </tr>
+        <tr>
+            <th scope="col">Croho-nummer</th>
+            <td> @row.stuCroNr</td>
+        </tr>
+        <tr>
+            <th scope="col">Niveau</th>
+            <td> @row.stuNiveau</td>
+        </tr>
+        <tr>
+            <th scope="col">Variant</th>
+            <td> @row.stuVariant</td>
+        </tr>
+        <tr>
+            <th scope="col">Flexibel onderwijs</th>
+            <td> @row.stuFlexOnderwijs</td>
+        </tr>
+        <tr>
+            <th scope="col">Vraag financiering</th>
+            <td> @row.stuVraFinanciering</td>
+        </tr>
+        <tr>
+            <th scope="col">Versneld traject</th>
+            <td> @row.stuVerTraject</td>
+        </tr>
+        <tr>
+            <th scope="col">Speciaal traject</th>
+            <td> @row.stuSpeTraject</td>
+        </tr>
+        <tr>
+            <th scope="col">Vestigings plaatsen</th>
+            <td> @row.vestiging</td>
+        </tr>
+    }
+</table>*@

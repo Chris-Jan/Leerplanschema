@@ -33,6 +33,19 @@ public class Functions
         return false;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="studieOpleiding"></param>
+    /// <param name="studieCrohonummer"></param>
+    /// <param name="studieniveau"></param>
+    /// <param name="studieVariant"></param>
+    /// <param name="studieFlexOnd"></param>
+    /// <param name="studieVraFin"></param>
+    /// <param name="studieVerTra"></param>
+    /// <param name="studieSpeTra"></param>
+    /// <param name="studieVesPla"></param>
+
     public static void AddOverzicht(string studieOpleiding, int studieCrohonummer, string studieniveau, string studieVariant, string studieFlexOnd, string studieVraFin, string studieVerTra, string studieSpeTra, string studieVesPla)
     {
         Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
@@ -40,21 +53,76 @@ public class Functions
         db.Execute(query, studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
     }
 
-    //public static IEnumerable<dynamic> AddEmptyRow()
-    //{
-    //    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
-    //    var query = "SELECT "
-
-    //}
-
-    public static void InsertTable(int leerjaar, int periode, string onderdeelnaam, string codeleerjaar, string codeonderwijseenheid, string coordinator, string keuze, string vak, int ec, string uitkerenhoofdvak, string wijzewaardering, string slagingsnormond, string woordbeoordeeldond, string geldigvanaf, string geldigtm, string toetscode, string toetsnaam, string toetswijze, int toetsduur, string waardering, string slagingnsnorm, string woordbeoordeeld, int weging,  string toetsmoment1, string toetsmoment2, string volgordelijkheid, string taal, string eindwerk, string examinator)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="leerjaar"></param>
+    /// <param name="periode"></param>
+    /// <param name="onderdeelnaam"></param>
+    /// <param name="codeleerjaar"></param>
+    /// <param name="codeonderwijseenheid"></param>
+    /// <param name="coordinator"></param>
+    /// <param name="keuze"></param>
+    /// <param name="vak"></param>
+    /// <param name="ec"></param>
+    /// <param name="uitkerenhoofdvak"></param>
+    /// <param name="wijzewaardering"></param>
+    /// <param name="slagingsnormond"></param>
+    /// <param name="woordbeoordeeldond"></param>
+    /// <param name="geldigvanaf"></param>
+    /// <param name="geldigtm"></param>
+    /// <param name="toetscode"></param>
+    /// <param name="toetsnaam"></param>
+    /// <param name="toetswijze"></param>
+    /// <param name="toetsduur"></param>
+    /// <param name="waardering"></param>
+    /// <param name="slagingnsnorm"></param>
+    /// <param name="woordbeoordeeld"></param>
+    /// <param name="weging"></param>
+    /// <param name="toetsmoment1"></param>
+    /// <param name="toetsmoment2"></param>
+    /// <param name="volgordelijkheid"></param>
+    /// <param name="taal"></param>
+    /// <param name="eindwerk"></param>
+    /// <param name="examinator"></param>
+    public static void InsertRow(string studienaam, string periode, string faseleerjaar, string coordinator, string keuzeverplicht, string titelonderwijs, string studiepunten, string titeltoets, string wijzevtoetsing, string slagingsnorm, string taal, string examinator)
     {
         Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
-        var query1 = "INSERT INTO Studie_onderdelen (leerjaar, periode, onderdeelnaam,codeonderwijseenheid, codeleerjaar,coordinator, keuze, vak, ec, uitkerenhoofdvak,wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14)";
-        var query2 = "INSERT INTO [Toets] (toetscode, toetsnaam, toetswijze, toetsduur,waardering,slagingsnorm, woordbeoordeeld, weging,toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13) ";
-        db.Execute(query1, leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm);
-        db.Execute(query2, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, woordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
+        var query = "INSERT INTO Studie_overview (studienaam, periode, faseleerjaar, coordinator, keuzeverplicht, titelonderwijs, studiepunten, titeltoets, wijzevtoetsing, slagingsnorm, taal, examinator ) VALUES (@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11)";
+        var queryExecute = db.Execute(query, studienaam, periode, faseleerjaar, coordinator, keuzeverplicht, titelonderwijs, studiepunten, titeltoets, wijzevtoetsing, slagingsnorm, taal, examinator);
     }
-        
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<dynamic> AddRow(string studienaam)
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var query = "SELECT periode, faseleerjaar, coordinator, keuzeverplicht, titelonderwijs, studiepunten, titeltoets, wijzevtoetsing, slagingsnorm, taal, examinator FROM Studie_overview WHERE studienaam = @0";
+        var queryCheck = db.Query(query, studienaam);
+        return queryCheck;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<dynamic> ShowOverzicht(string naamopleiding)
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var sqlCommand = "SELECT stuOpleiding , stuCroNr, stuNiveau, stuVariant , stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging FROM Studie_overzicht WHERE styOpleiding = @0";
+        var showOverzicht = db.Query(sqlCommand, naamopleiding);
+        return showOverzicht;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="studienaam"></param>
+    /// <returns></returns>
+    public static IEnumerable<dynamic> SelectStudieoverview(string studienaam)
+    {
+        Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+        var query = "SELECT periode, faseleerjaar, coordinator, keuzeverplicht, titelonderwijs, studiepunten, titeltoets, wijzevtoetsing, slagingsnorm, taal, examinator FROM Studie_overview WHERE studienaam =@0";
+        var queryCheck = db.Query(query, studienaam);
+        return queryCheck;
+    }
 }
