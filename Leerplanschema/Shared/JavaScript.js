@@ -12,3 +12,5 @@ $("[class=btnModalPopup]").live("click", function () {
     });
     return false;
 });
+
+//$

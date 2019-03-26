@@ -122,4 +122,9 @@ public class Functions
         var queryCheck = db.Query(query, studienaam);
         return queryCheck;
     }
+
+    public static void test()
+    {
+
+    }
 }
