@@ -1,0 +1,179 @@
+﻿@using WebMatrix.Data;
+
+@{
+    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+
+    var studieOpleiding = Request.Form["AddOpleiding"];
+    var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
+    var studieniveau = Request.Form["AddNiveau"];
+    var studieVariant = Request.Form["AddVariant"];
+    var studieFlexOnd = Request.Form["AddFlexOnd"];
+    var studieVraFin = Request.Form["AddVraFin"];
+    var studieVerTra = Request.Form["AddVerTra"];
+    var studieSpeTra = Request.Form["AddSpeTra"];
+    var studieVesPla = Request.Form["AddVesPla"];
+    var studieJaar = "";
+
+    if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
+    {
+        Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
+        Validation.RequireField("password", "Er moet een wachtwoord in worden gevuld");
+        var username = Request.Form["username"];
+        var password = Request.Form["password"];
+
+        if (Functions.Login(username, password))
+        {
+            //You've successfully logged in (pop up verdwijnen)
+        }
+        else
+        {
+            Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
+        }
+    }
+
+    if (IsPost && Request.Form["addOverzicht"] == "Toevoegen")
+    {
+        Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
+        Session["AddOpleiding"] = studieOpleiding;
+    }
+
+    if (IsPost && Request.Form["addRow"] == "RijToevoegen")
+    {
+        var naamOpleiding = Convert.ToString(Session["AddOpleiding"]);
+        Functions.InsertRow(naamOpleiding, Request.Form["periode"], Request.Form["faseleerjaar"], Request.Form["coordinator"], Request.Form["keuzeverplicht"], Request.Form["titelonderwijs"], Request.Form["studiepunten"], Request.Form["titeltoets"], Request.Form["wijzevtoetsing"], Request.Form["slagingsnorm"], Request.Form["taal"], Request.Form["examinator"]);
+    }
+
+
+}
+
+<html>
+<head>
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>*@
+    <link href="~/Shared/StyleSheet.css" rel="stylesheet" />
+
+</head>
+<body>
+    <form method="post">
+        <table class="table table-light">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">LEERPLAN</th>
+                    <td> @studieJaar</td>
+                </tr>
+                <tr>
+                    <th scope="col">Opleiding</th>
+                    <td> @studieOpleiding</td>
+                    <td><input type="text" name="AddOpleiding" placeholder="Naam opleiding..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Croho-nummer</th>
+                    <td> @studieCrohonummer</td>
+                    <td><input type="text" name="AddCroNummer" placeholder="Croho-nummer..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Niveau</th>
+                    <td> @studieniveau</td>
+                    <td><input type="text" name="AddNiveau" placeholder="Niveau..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Variant</th>
+                    <td> @studieVariant</td>
+                    <td><input type="text" name="AddVariant" placeholder="Variant..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Flexibel onderwijs</th>
+                    <td> @studieFlexOnd</td>
+                    <td><input type="text" name="AddFlexOnd" placeholder="Flexibel onderwijs..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Vraag financiering</th>
+                    <td> @studieVraFin</td>
+                    <td><input type="text" name="AddVraFin" placeholder="Vraag financiering..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Versneld traject</th>
+                    <td> @studieVerTra</td>
+                    <td><input type="text" name="AddVerTra" placeholder="Versneld traject..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Speciaal traject</th>
+                    <td> @studieSpeTra</td>
+                    <td><input type="text" name="AddSpeTra" placeholder="Speciaal traject..." value="" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">Vestigings plaatsen</th>
+                    <td> @studieVesPla</td>
+                    <td><input type="text" name="AddVesPla" placeholder="Vestigings..." value="" /></td>
+                </tr>
+            </thead>
+        </table>
+        <button name="addOverzicht" value="Toevoegen">Toevoegen</button>
+    </form>
+
+
+
+    <form method="post">
+        <input type="text" name="username" />
+        <input type="password" name="password" />
+        <input type="submit" name="submitLogin" value="" />
+    </form>
+    <div class="table-responsive">
+        <form method="post">
+            <table class="table table-bordered table-light">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th> ?
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.AddRow(studieOpleiding))
+                    {
+                    <tr>
+                        <td>@row.periode</td>
+                        <td>@row.faseleerjaar</td>
+                        <td>@row.coordinator</td>
+                        <td>@row.keuzeverplicht</td>
+                        <td>@row.titelonderwijs</td>
+                        <td>@row.studiepunten</td>
+                        <td>@row.titeltoets</td>
+                        <td>@row.wijzevtoetsing</td>
+                        <td>@row.slagingsnorm</td>
+                        <td>@row.taal</td>
+                        <td>@row.examinator</td>
+                    </tr>
+                    }
+                    <tr class="row">
+                        <td class="rowinput"><input class="form-control" type="text" name="periode" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="faseleerjaar" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="coordinator" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="keuzeverplicht" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="titelonderwijs" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="studiepunten" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="titeltoets" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="wijzevtoetsing" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="slagingsnorm" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="taal" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="examinator" /></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button name="addRow" value="RijToevoegen">+</button>
+        </form>
+    </div>
+
+</body>
+</html>
