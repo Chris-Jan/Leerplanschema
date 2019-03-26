@@ -92,219 +92,224 @@
         Functions.InsertTable(leerjaar, periode, onderdeelnaam, codeleerjaar, codeonderwijseenheid, coordinator, keuze, vak, ec, uitkerenhoofdvak, wijzewaardering, slagingsnormond, woordbeoordeeldond, geldigvanaf, geldigtm, toetscode, toetsnaam, toetswijze, toetsduur, waardering, slagingnsnorm, wordbeoordeeld, weging, toetsmoment1, toetsmoment2, volgordelijkheid, taal, eindwerk, examinator);
     }
 }
-@test <br />
-
-      <html>
-     @* @RenderPage("~/Shared/_Layout.cshtml");*@
-      <body>
-          <form method="post">
-              <input type="submit" name="ICT" value="HBO-ICT" />
-              <input type="submit" name="ITSM" value="AD-ITSM" />
-              <input type="submit" name="Emmen" value="studie 3" />
-          </form>
 
 
+<html>
+@RenderPage("~/Shared/_header.cshtml")
+<head>
+<style type="text/css">
+    .inhoud {
+        display: none;
+    }
+    .ulclass {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #008487;
+        text-align:center;
+    }
+
+    .liclass {
+        display:inline;
+
+    }
+
+        .liclass a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            margin: 0px 60px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .liclass a:hover:not(.active) {
+                background-color: #008487;
+                color: black;
+            }
+
+    .active {
+        background-color: white;
+    }
+    
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#menu a').each(function () {
+            id = $(this).attr('href');
+            id = id.substring(id.lastIndexOf('/'));
+            id = id.substring(0, id.indexOf('.'));
+            $(this).attr('rel', id);
+        });
+        $('#home').show();
+        $('#menu a').click(function (e) {
+            e.preventDefault();
+            $('.inhoud').hide();
+            $('#' + $(this).attr('rel')).show();
+            location.hash = '#!/' + $(this).attr('rel');
+            return false;
+        });
+    });
+
+</script>
+</head>
+
+<body>
+    <div id="menu">
+        <ul class="ulclass">
+            <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a></li>
+            <li class="liclass"><a href="AD-ITSM.cshtml">AD-ITSM</a></li>
+            <li class="liclass"><a href="TechInformatica.cshtml">Technische Informatica</a></li>
+        </ul>
+    </div>
+    <div id="HBO-ICT" class="inhoud">
+        <div id="menu">
+            <ul class="ulclass">
+                <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="AD-ITSM" class="inhoud ">
+        <div id="menu">
+            <ul class="ulclass ">
+                <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="TechInformatica" class="inhoud">
+        <div id="menu">
+            <ul class="ulclass">
+                <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="HBO-ICT">        
+        <div id="HI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="HI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="HI-J3" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml" style="background-color:#007879">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="HI-J4" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>       
+    </div>
+
+    <div id="AD-ITSM">
+        <div id="ADI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="ADI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="ADI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+    </div>
+    <div id="TechnInformatica">
+        <div id="TI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J3" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml" style="background-color:#007879">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J4" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+    </div>
+</body>
 
 
-
-          <form method="post">
-              <input type="text" name="username" />
-              <input type="password" name="password" />
-              <input type="submit" name="submitLogin" value="" />
-
-
-
-              <table class="table table-light">
-                  <thead class="thead-dark">
-                      <tr>
-                          <th scope="col"></th>
-                          <th scope="col">Fase / Leerjaar / Module</th>
-                          <th scope="col">Code: fase/leerjaar/module</th>
-                          <th scope="col">Code: Onderwijseenheid</th>
-                          <th scope="col">Coördinator</th>
-                          <th scope="col">Keuze/Verplicht</th>
-                          <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                          <th scope="col">Studiepunten</th>
-                          <th scope="col">Uitkeren op hoofdvak</th>
-                          <th scope="col">Wijze van waardering</th>
-                          <th scope="col">Slagingsnorm</th>
-                          <th scope="col">Woord beoordeeling ja/nee</th>
-                          <th scope="col">Geldig vanaf:</th>
-                          <th scope="col">Gelding t/m</th>
-                          <th scope="col">Code toets</th>
-                          <th scope="col">Titel toets</th>
-                          <th scope="col">Wijze van toetsing</th>
-                          <th scope="col">Toetsduur</th>
-                          <th scope="col">Wijze van waardering</th>
-                          <th scope="col">Slagingsnorm</th>
-                          <th scope="col">Woord beoordeling ja/nee</th>
-                          <th scope="col">Weging</th>
-                          <th scope="col">Toetsmoment 1</th>
-                          <th scope="col">Toetsmoment 2</th>
-                          <th scope="col">Volgordelijkheid</th>
-                          <th scope="col">Taal</th>
-                          <th scope="col">Kladwerk ja/nee</th>
-                          <th scope="col">Examinator</th>
-                      </tr>
-
-                  </thead>
-                  <tbody>
-                      @*@foreach (var row in  )
-                    {
-
-                    }*@
-                      <tr>
-                          <td><input type="button" name="AddRow" value="+" /></td>
-                          <td></td>
-                      </tr>
-                  </tbody>
-              </table>
-          </form>
-          <form method="post">
-              <input type="text" name="leerjaar" value="" />
-              <input type="text" name="periode" value="" />
-              <input type="text" name="fsm" value="" />
-              <input type="text" name="cflm" value="" />
-              <input type="text" name="conderwijs" value="" />
-              <input type="text" name="Coördinator" value="" />
-              <input type="text" name="keuze" value="" />
-              <input type="text" name="titel" value="" />
-              <input type="text" name="studiepunten" value="" />
-              <input type="text" name="hoofdvak" value="" />
-              <input type="text" name="waardering" value="" />
-              <input type="text" name="slagingsnorm" value="" />
-              <input type="text" name="beoordeeld" value="" />
-              <input type="text" name="vanaf" value="" />
-              <input type="text" name="totmet" value="" />
-              <input type="text" name="codetoets" value="" />
-              <input type="text" name="titeltoets" value="" />
-              <input type="text" name="wijze" value="" />
-              <input type="text" name="toetsduur" value="" />
-              <input type="text" name="wijzewaardering" value="" />
-              <input type="text" name="slagingsnormen" value="" />
-              <input type="text" name="wordtbeoordeeld" value="" />
-              <input type="text" name="weging" value="" />
-              <input type="text" name="toetsmoment1" value="" />
-              <input type="text" name="toetsmoment2" value="" />
-              <input type="text" name="volgordelijkheid" value="" />
-              <input type="text" name="taal" value="" />
-              <input type="text" name="kladwerk" value="" />
-              <input type="text" name="examinator" value="" />
-              <input type="submit" name="SchemaAdd" value="Add" />
-          </form>
-
-
-          <form method="post">
-              <table class="table table-light">
-                  <thead class="thead-dark">
-                      <tr>
-                          <th scope="col">LEERPLAN</th>
-                          <td> @studieJaar</td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Opleiding</th>
-                          <td> @studieOpleiding</td>
-                          <td><input type="text" name="AddOpleiding" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Croho-nummer</th>
-                          <td> @studieCrohonummer</td>
-                          <td><input type="text" name="AddCroNummer" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Niveau</th>
-                          <td> @studieniveau</td>
-                          <td><input type="text" name="AddNiveau" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Variant</th>
-                          <td> @studieVariant</td>
-                          <td><input type="text" name="AddVariant" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Flexibel onderwijs</th>
-                          <td> @studieFlexOnd</td>
-                          <td><input type="text" name="AddFlexOnd" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Vraag financiering</th>
-                          <td> @studieVraFin</td>
-                          <td><input type="text" name="AddVraFin" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Versneld traject</th>
-                          <td> @studieVerTra</td>
-                          <td><input type="text" name="AddVerTra" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Speciaal traject</th>
-                          <td> @studieSpeTra</td>
-                          <td><input type="text" name="AddSpeTra" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Vestigings plaatsen</th>
-                          <td> @studieVesPla</td>
-                          <td><input type="text" name="AddVesPla" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <button name="addOverzicht" value="Toevoegen">Toevoegen</button>
-                      </tr>
-              </table>
-
-              <table>
-                  @foreach (var row in showOverzicht)
-                  {
-                      <tr>
-                          <th scope="col">LEERPLAN</th>
-                          <td> @studieJaar</td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Opleiding</th>
-                          <td> @row.stuOpleiding</td>
-                          <td><input type="text" name="AddOpleiding" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Croho-nummer</th>
-                          <td> @row.stuCroNr</td>
-                          <td><input type="text" name="AddCroNummer" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Niveau</th>
-                          <td> @row.stuNiveau</td>
-                          <td><input type="text" name="AddNiveau" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Variant</th>
-                          <td> @row.stuVariant</td>
-                          <td><input type="text" name="AddVariant" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Flexibel onderwijs</th>
-                          <td> @row.stuFlexOnderwijs</td>
-                          <td><input type="text" name="AddFlexOnd" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Vraag financiering</th>
-                          <td> @row.stuVraFinanciering</td>
-                          <td><input type="text" name="AddVraFin" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Versneld traject</th>
-                          <td> @row.stuVerTraject</td>
-                          <td><input type="text" name="AddVerTra" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Speciaal traject</th>
-                          <td> @row.stuSpeTraject</td>
-                          <td><input type="text" name="AddSpeTra" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                      <tr>
-                          <th scope="col">Vestigings plaatsen</th>
-                          <td> @row.vestiging</td>
-                          <td><input type="text" name="AddVesPla" placeholder="Naam opleiding..." value="" /></td>
-                      </tr>
-                  }
-              </table>
-          </form>
-      </body>
-      </html>
+@RenderPage("~/Shared/_footer.cshtml")
+</html>
