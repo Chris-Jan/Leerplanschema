@@ -4,16 +4,18 @@
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
     var studieJaar = "";
 
-    if (IsPost && Request.Form["ICT"] == "HBO-ICT")
-    {
-        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
-        Functions.SelectStudieoverview("HBO-ICT");
-    }
+    //if (IsPost && Request.Form["ICT"] == "HBO-ICT")
+    //{
+    //    studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+    //    Functions.SelectStudieoverview("HBO-ICT");
+    //}
 
-    if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
-    {
-        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
-    }
+    //if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
+    //{
+    //    studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
+    //}
+
+
 }
 <html>
 @RenderPage("~/Shared/_header.cshtml")
@@ -90,7 +92,7 @@
     <div id="HBO-ICT" class="inhoud">
         <div id="menu">
             <ul class="ulclass">
-                <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a name="jaar1" href="HI-J1.cshtml">Jaar 1</a></li>
                 <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
                 <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
                 <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>

@@ -8,7 +8,9 @@
 
         if (Functions.Login(username, password))
         {
+            var login = "";
             Response.Redirect("~/Pages/index_adm.cshtml");
+            Session["login"] = login;
             //You've successfully logged in (pop up verdwijnen)
         }
         else

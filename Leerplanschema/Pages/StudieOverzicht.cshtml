@@ -1,0 +1,42 @@
+﻿@using WebMatrix.Data
+
+@{
+    var studieOpleiding = Convert.ToString(Session["Opleidingadd"]);
+    var leerjaar = "1";
+}
+
+<div class="table-responsive">
+    <form method="post">
+        <table class="table table-bordered table-light">
+            <thead class="thead-dark">
+                <tr class="row">
+                    <th scope="col">Periode</th>
+                    <th scope="col">Fase / Leerjaar / Module</th>
+                    <th scope="col">Coördinator</th>
+                    <th scope="col">Keuze/Verplicht</th>
+                    <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                    <th scope="col">Studiepunten</th>
+                    <th scope="col">Titel toets</th>
+                    <th scope="col">Wijze van toetsing</th>
+                    <th scope="col">Slagingsnorm</th>
+                    <th scope="col">Taal</th>
+                    <th scope="col">Examinator</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Functions.SelectStudieoverview2(studieOpleiding, leerjaar))
+                {
+                    <tr>
+                        <td>@row.periode</td>
+                        <td>@row.faseleerjaar</td>
+                        <td>@row.coordinator</td>
+                        <td>@row.keuzeverplicht</td>
+                        <td>@row.titelonderwijs</td>
+                        <td>@row.studiepunten</td>
+                        <td>@row.titeltoets</td>
+                        <td>@row.wijzevtoetsing</td>
+                        <td>@row.slagingsnorm</td>
+                        <td>@row.taal</td>
+                        <td>@row.examinator</td>
+                    </tr>
+                }
