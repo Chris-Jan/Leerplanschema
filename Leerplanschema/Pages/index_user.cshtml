@@ -15,93 +15,221 @@
         studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
     }
 }
-<body>
-    <form method="post">
-        <input type="submit" name="ICT" value="HBO-ICT" />
-        <input type="submit" name="ITSM" value="AD-ITSM" />
-        <input type="submit" name="Emmen" value="studie 3" />
-    </form>
+<html>
+@RenderPage("~/Shared/_header.cshtml")
+<head>
+    <style type="text/css">
+        .inhoud {
+            display: none;
+        }
 
-    <table>
-        <thead class="thead-dark">
-            <tr class="row">
-                <th scope="col">Periode</th>
-                <th scope="col">Fase / Leerjaar / Module</th>
-                <th scope="col">Coördinator</th>
-                <th scope="col">Keuze/Verplicht</th>
-                <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                <th scope="col">Studiepunten</th>
-                <th scope="col">Titel toets</th>
-                <th scope="col">Wijze van toetsing</th>
-                <th scope="col">Slagingsnorm</th> ?
-                <th scope="col">Taal</th>
-                <th scope="col">Examinator</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
-            {
-                <tr>
-                    <td>@row.periode</td>
-                    <td>@row.faseleerjaar</td>
-                    <td>@row.coordinator</td>
-                    <td>@row.keuzeverplicht</td>
-                    <td>@row.titelonderwijs</td>
-                    <td>@row.studiepunten</td>
-                    <td>@row.titeltoets</td>
-                    <td>@row.wijzevtoetsing</td>
-                    <td>@row.slagingsnorm</td>
-                    <td>@row.taal</td>
-                    <td>@row.examinator</td>
-                </tr>
+        .ulclass {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #008487;
+            text-align: center;
+        }
+
+        .liclass {
+            display: inline;
+        }
+
+            .liclass a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                margin: 0px 60px;
+                text-decoration: none;
+                display: inline-block;
             }
-        </tbody>
-    </table>
+
+                .liclass a:hover:not(.active) {
+                    background-color: #008487;
+                    color: black;
+                }
+
+        .active {
+            background-color: white;
+        }
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#menu a').each(function () {
+                id = $(this).attr('href');
+                id = id.substring(id.lastIndexOf('/'));
+                id = id.substring(0, id.indexOf('.'));
+                $(this).attr('rel', id);
+            });
+            $('#home').show();
+            $('#menu a').click(function (e) {
+                e.preventDefault();
+                $('.inhoud').hide();
+                $('#' + $(this).attr('rel')).show();
+                location.hash = '#!/' + $(this).attr('rel');
+                return false;
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="menu">
+        <ul class="ulclass">
+            <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a></li>
+            <li class="liclass"><a href="AD-ITSM.cshtml">AD-ITSM</a></li>
+            <li class="liclass"><a href="TechInformatica.cshtml">Technische Informatica</a></li>
+        </ul>
+    </div>
+    <div id="HBO-ICT" class="inhoud">
+        <div id="menu">
+            <ul class="ulclass">
+                <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="AD-ITSM" class="inhoud ">
+        <div id="menu">
+            <ul class="ulclass ">
+                <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="TechInformatica" class="inhoud">
+        <div id="menu">
+            <ul class="ulclass">
+                <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="HBO-ICT">
+        <div id="HI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="HI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="HI-J3" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml" style="background-color:#007879">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="HI-J4" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+    </div>
+
+    <div id="AD-ITSM">
+        <div id="ADI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="ADI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="ADI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+    </div>
+    <div id="TechnInformatica">
+        <div id="TI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J3" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml" style="background-color:#007879">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J4" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+    </div>
 </body>
-@*Overzicht tabel*@
-@*<table>*@
-    //wip> linken aan BUTTON zoals in adm
-    @*@foreach (var row in Functions.ShowOverzicht())
-    {
-        <tr>
-            <th scope="col">LEERPLAN</th>
-            <td> studiejaar</td>
-        </tr>
-        <tr>
-            <th scope="col">Opleiding</th>
-            <td> @row.stuOpleiding</td>
-        </tr>
-        <tr>
-            <th scope="col">Croho-nummer</th>
-            <td> @row.stuCroNr</td>
-        </tr>
-        <tr>
-            <th scope="col">Niveau</th>
-            <td> @row.stuNiveau</td>
-        </tr>
-        <tr>
-            <th scope="col">Variant</th>
-            <td> @row.stuVariant</td>
-        </tr>
-        <tr>
-            <th scope="col">Flexibel onderwijs</th>
-            <td> @row.stuFlexOnderwijs</td>
-        </tr>
-        <tr>
-            <th scope="col">Vraag financiering</th>
-            <td> @row.stuVraFinanciering</td>
-        </tr>
-        <tr>
-            <th scope="col">Versneld traject</th>
-            <td> @row.stuVerTraject</td>
-        </tr>
-        <tr>
-            <th scope="col">Speciaal traject</th>
-            <td> @row.stuSpeTraject</td>
-        </tr>
-        <tr>
-            <th scope="col">Vestigings plaatsen</th>
-            <td> @row.vestiging</td>
-        </tr>
-    }
-</table>*@
+
+
+@RenderPage("~/Shared/_footer.cshtml")
+</html>

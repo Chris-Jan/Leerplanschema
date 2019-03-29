@@ -3,6 +3,7 @@
     return false;
 });
 
+<<<<<<< HEAD
 $("[class=btnModalPopup]").live("click", function () {
     $("#modal_dialog").dialog({
         title: "jQuery Modal Dialog Popup",
@@ -14,3 +15,16 @@ $("[class=btnModalPopup]").live("click", function () {
 });
 
 //$
+=======
+
+ $("[class=btnModalPopup]").live("click", function () {
+            $("#modal_dialog").dialog({
+                title: "Login",
+
+
+                modal: true
+            });
+            return false;
+});
+
+>>>>>>> 24eb277e0bf848c730f225d941376aa91b57dcda
