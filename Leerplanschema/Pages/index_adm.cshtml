@@ -2,129 +2,147 @@
 
 @{
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
-
-    var studieOpleiding = Request.Form["AddOpleiding"];
-    var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
-    var studieniveau = Request.Form["AddNiveau"];
-    var studieVariant = Request.Form["AddVariant"];
-    var studieFlexOnd = Request.Form["AddFlexOnd"];
-    var studieVraFin = Request.Form["AddVraFin"];
-    var studieVerTra = Request.Form["AddVerTra"];
-    var studieSpeTra = Request.Form["AddSpeTra"];
-    var studieVesPla = Request.Form["AddVesPla"];
     var studieJaar = "";
-    Session["AddOpleiding"] = studieOpleiding;
 
-    if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
+    if (IsPost && Request.Form["ICT"] == "HBO-ICT")
     {
-        Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
-        Validation.RequireField("password", "Er moet een wachtwoord in worden gevuld");
-        var username = Request.Form["username"];
-        var password = Request.Form["password"];
-
-        if (Functions.Login(username, password))
-        {
-            //You've successfully logged in (pop up verdwijnen)
-        }
-        else
-        {
-            Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
-        }
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+        Functions.SelectStudieoverview("HBO-ICT");
     }
 
-    if (IsPost && Request.Form["addOverzicht"] == "Toevoegen")
+    if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
     {
-        Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
-        Session["AddOpleiding"] = studieOpleiding;
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
     }
 
-    if (IsPost && Request.Form["addRow"] == "RijToevoegen")
+    if (IsPost && Request.Form["Tech"] == "TechInformatica")
     {
-        var naamOpleiding = Convert.ToString(Session["AddOpleiding"]);
-        Functions.InsertRow(naamOpleiding, Request.Form["periode"], Request.Form["faseleerjaar"], Request.Form["coordinator"], Request.Form["keuzeverplicht"], Request.Form["titelonderwijs"], Request.Form["studiepunten"], Request.Form["titeltoets"], Request.Form["wijzevtoetsing"], Request.Form["slagingsnorm"], Request.Form["taal"], Request.Form["examinator"]);
-        Response.Redirect("~/Pages/index_adm");
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
     }
+
+
 
 
 }
-
 <html>
+@RenderPage("~/Shared/_header.cshtml")
 <head>
-    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>*@
-    <link href="~/Shared/StyleSheet.css" rel="stylesheet" />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
-    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
-          rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="~/Shared/JavaScript.js"></script>
+    <style type="text/css">
+        .inhoud {
+            display: none;
+        }
+
+        .ulclass {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #008487;
+            text-align: center;
+        }
+
+        .liclass {
+            display: inline;
+        }
+
+            .liclass a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                margin: 0px 60px;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+                .liclass a:hover:not(.active) {
+                    background-color: #008487;
+                    color: black;
+                }
+
+        .active {
+            background-color: white;
+        }
+
+        .table {
+            text-align: right;
+        }
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#menu a').each(function () {
+                id = $(this).attr('href');
+                id = id.substring(id.lastIndexOf('/'));
+                id = id.substring(0, id.indexOf('.'));
+                $(this).attr('rel', id);
+            });
+            $('#home').show();
+            $('#menu a').click(function (e) {
+                e.preventDefault();
+                $('.inhoud').hide();
+                $('#' + $(this).attr('rel')).show();
+                location.hash = '#!/' + $(this).attr('rel');
+                return false;
+            });
+        });
+
+    </script>
 </head>
+
 <body>
+
     <form method="post">
-        <table class="table table-light">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">LEERPLAN</th>
-                    <td> @studieJaar</td>
-                </tr>
-                <tr>
-                    <th scope="col">Opleiding</th>
-                    <td> @studieOpleiding</td>
-                    <td><input type="text" name="AddOpleiding" placeholder="Naam opleiding..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Croho-nummer</th>
-                    <td> @studieCrohonummer</td>
-                    <td><input type="text" name="AddCroNummer" placeholder="Croho-nummer..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Niveau</th>
-                    <td> @studieniveau</td>
-                    <td><input type="text" name="AddNiveau" placeholder="Niveau..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Variant</th>
-                    <td> @studieVariant</td>
-                    <td><input type="text" name="AddVariant" placeholder="Variant..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Flexibel onderwijs</th>
-                    <td> @studieFlexOnd</td>
-                    <td><input type="text" name="AddFlexOnd" placeholder="Flexibel onderwijs..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Vraag financiering</th>
-                    <td> @studieVraFin</td>
-                    <td><input type="text" name="AddVraFin" placeholder="Vraag financiering..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Versneld traject</th>
-                    <td> @studieVerTra</td>
-                    <td><input type="text" name="AddVerTra" placeholder="Versneld traject..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Speciaal traject</th>
-                    <td> @studieSpeTra</td>
-                    <td><input type="text" name="AddSpeTra" placeholder="Speciaal traject..." value="" /></td>
-                </tr>
-                <tr>
-                    <th scope="col">Vestigings plaatsen</th>
-                    <td> @studieVesPla</td>
-                    <td><input type="text" name="AddVesPla" placeholder="Vestigings..." value="" /></td>
-                </tr>
-                <tr> <td> <input type="submit" name="addOverzicht" value="Toevoegen" /></td></tr>
-            </thead>
-        </table>
-        @*<button name="addOverzicht" value="Toevoegen">Toevoegen</button>*@
+        <div id="menu">
+            <ul class="ulclass">
+                <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a></li>
+                <li class="liclass"><a href="AD-ITSM.cshtml">AD-ITSM</a></li>
+                <li class="liclass"><a href="TechInformatica.cshtml">Technische Informatica</a></li>
+            </ul>
+        </div>
+        <div id="HBO-ICT" class="inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="AD-ITSM" class="inhoud ">
+            <div id="menu">
+                <ul class="ulclass ">
+                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="TechInformatica" class="inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+        </div>
     </form>
+    <div id="HBO-ICT">
+        <div id="HI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
 
-
-
-    <div class="table-responsive">
-        <form method="post">
-            <table class="table table-bordered table-light">
+            <table>
                 <thead class="thead-dark">
                     <tr class="row">
                         <th scope="col">Periode</th>
@@ -135,13 +153,13 @@
                         <th scope="col">Studiepunten</th>
                         <th scope="col">Titel toets</th>
                         <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th> 
+                        <th scope="col">Slagingsnorm</th>
                         <th scope="col">Taal</th>
                         <th scope="col">Examinator</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var row in Functions.AddRow(studieOpleiding))
+                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
                     {
                         <tr>
                             <td>@row.periode</td>
@@ -157,43 +175,283 @@
                             <td>@row.examinator</td>
                         </tr>
                     }
-                    
-                    <tr class="row">
-                        <td class="rowinput"><input class="form-control" type="text" name="periode" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="faseleerjaar" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="coordinator" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="keuzeverplicht" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="titelonderwijs" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="studiepunten" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="titeltoets" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="wijzevtoetsing" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="slagingsnorm" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="taal" /></td>
-                        <td class="rowinput"><input class="form-control" type="text" name="examinator" /></td>
-                        <td></td>
-                    </tr>
                 </tbody>
             </table>
-            <button name="addRow" value="RijToevoegen">+</button>
-        </form>
+        </div>
+        <div id="HI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            <table>
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="HI-J3" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml" style="background-color:#007879">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            <table>
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="HI-J4" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
+                </ul>
+            </div>
+            <table>
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div id="modal_dialog" style="display: none">
-        @Html.ValidationSummary()<form method="post">
-
-            <input type="text" name="username" id="username" placeholder="Username" value="" /> @Html.ValidationMessage("username") <br />
-            <input type="password" name="password" id="password" placeholder="password" value="" />  @Html.ValidationMessage("password")<br />
-            <input type="submit" name="submit" value="Login" />
-        </form>
-
+    <div id="AD-ITSM">
+        <div id="ADI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="ADI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                </ul>
+            </div>
+            <table>
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ITSM"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="ADI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                </ul>
+            </div>
+            <table>
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <button class="btnModalPopup">Login</button>
-
-    
-
-
-
-
+    <div id="TechnInformatica">
+        <div id="TI-J1" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml" style="background-color:#007879">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J2" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J3" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml" style="background-color:#007879">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+        <div id="TI-J4" class="Inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
+                </ul>
+            </div>
+            [Insert tabel hier]
+        </div>
+    </div>
 </body>
+
+<footer>
+    @RenderPage("~/Shared/_footer.cshtml")
+</footer>
 </html>
