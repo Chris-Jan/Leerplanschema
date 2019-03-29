@@ -13,6 +13,7 @@
     var studieSpeTra = Request.Form["AddSpeTra"];
     var studieVesPla = Request.Form["AddVesPla"];
     var studieJaar = "";
+    Session["AddOpleiding"] = studieOpleiding;
 
     if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
     {
@@ -41,6 +42,7 @@
     {
         var naamOpleiding = Convert.ToString(Session["AddOpleiding"]);
         Functions.InsertRow(naamOpleiding, Request.Form["periode"], Request.Form["faseleerjaar"], Request.Form["coordinator"], Request.Form["keuzeverplicht"], Request.Form["titelonderwijs"], Request.Form["studiepunten"], Request.Form["titeltoets"], Request.Form["wijzevtoetsing"], Request.Form["slagingsnorm"], Request.Form["taal"], Request.Form["examinator"]);
+        Response.Redirect("~/Pages/index_adm");
     }
 
 
@@ -49,11 +51,15 @@
 <html>
 <head>
     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>*@
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>*@
     <link href="~/Shared/StyleSheet.css" rel="stylesheet" />
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
+          rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Shared/JavaScript.js"></script>
 </head>
 <body>
     <form method="post">
@@ -108,18 +114,14 @@
                     <td> @studieVesPla</td>
                     <td><input type="text" name="AddVesPla" placeholder="Vestigings..." value="" /></td>
                 </tr>
+                <tr> <td> <input type="submit" name="addOverzicht" value="Toevoegen" /></td></tr>
             </thead>
         </table>
-        <button name="addOverzicht" value="Toevoegen">Toevoegen</button>
+        @*<button name="addOverzicht" value="Toevoegen">Toevoegen</button>*@
     </form>
 
 
 
-    <form method="post">
-        <input type="text" name="username" />
-        <input type="password" name="password" />
-        <input type="submit" name="submitLogin" value="" />
-    </form>
     <div class="table-responsive">
         <form method="post">
             <table class="table table-bordered table-light">
@@ -133,7 +135,7 @@
                         <th scope="col">Studiepunten</th>
                         <th scope="col">Titel toets</th>
                         <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th> ?
+                        <th scope="col">Slagingsnorm</th> 
                         <th scope="col">Taal</th>
                         <th scope="col">Examinator</th>
                     </tr>
@@ -141,20 +143,21 @@
                 <tbody>
                     @foreach (var row in Functions.AddRow(studieOpleiding))
                     {
-                    <tr>
-                        <td>@row.periode</td>
-                        <td>@row.faseleerjaar</td>
-                        <td>@row.coordinator</td>
-                        <td>@row.keuzeverplicht</td>
-                        <td>@row.titelonderwijs</td>
-                        <td>@row.studiepunten</td>
-                        <td>@row.titeltoets</td>
-                        <td>@row.wijzevtoetsing</td>
-                        <td>@row.slagingsnorm</td>
-                        <td>@row.taal</td>
-                        <td>@row.examinator</td>
-                    </tr>
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
                     }
+                    
                     <tr class="row">
                         <td class="rowinput"><input class="form-control" type="text" name="periode" /></td>
                         <td class="rowinput"><input class="form-control" type="text" name="faseleerjaar" /></td>
@@ -174,6 +177,23 @@
             <button name="addRow" value="RijToevoegen">+</button>
         </form>
     </div>
+
+    <div id="modal_dialog" style="display: none">
+        @Html.ValidationSummary()<form method="post">
+
+            <input type="text" name="username" id="username" placeholder="Username" value="" /> @Html.ValidationMessage("username") <br />
+            <input type="password" name="password" id="password" placeholder="password" value="" />  @Html.ValidationMessage("password")<br />
+            <input type="submit" name="submit" value="Login" />
+        </form>
+
+    </div>
+
+    <button class="btnModalPopup">Login</button>
+
+    
+
+
+
 
 </body>
 </html>

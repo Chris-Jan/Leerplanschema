@@ -1,5 +1,22 @@
 ﻿@{
+    if (IsPost && Validation.IsValid() && Request.Form["submit"] == "Login")
+    {
+        Validation.RequireField("username", "Er moet een gebruikersnaam worden ingevuld");
+        Validation.RequireField("password", "Er moet een wachtwoord in worden gevuld");
+        var username = Request.Form["username"];
+        var password = Request.Form["password"];
 
+        if (Functions.Login(username, password))
+        {
+            Response.Redirect("~/Pages/index_adm.cshtml");
+            //You've successfully logged in (pop up verdwijnen)
+        }
+        else
+        {
+            Response.Redirect("~/Pages/index_user.cshtml");
+            Validation.AddFormError("Onjuiste gebruikersnaam en/of wachtwoord ingevoerd");
+        }
+    }
 }
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="nl" version="XHTML+RDFa 1.0" dir="ltr" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" class="js checked svg objectfit object-fit placeholder" style="">
 <head profile="http://www.w3.org/1999/xhtml/vocab">
@@ -21,7 +38,11 @@
     <link type="text/css" rel="stylesheet" href="https://www.nhlstenden.com/sites/default/files/css/css_XV-fB1_2kL5De2HkgfZt-hhNBy8hp7iCsgoqUA9-eDo.css" media="all">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="~/Shared/StyleSheet.css" />
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
+          rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Shared/JavaScript.js"></script>
 </head>
 <body class="html not-front not-logged-in two-sidebars page-node page-node- page-node-7225 node-type-study-full-time domain-nhl i18n-nl node-study cookieControl-processed">
 
@@ -41,9 +62,16 @@
             <div id="block-menu-menu-top-menu" class="block block-menu first last">
                 <div class="content">
                     <ul class="nav list-unstyled nav--level-1">
-                        <li>
-                            <a href="~/login.cshtml" title="Inloggen NHL Stenden account"
-                               class="nav__link menu-top-menu-nav__link nav__link--level-1" target="_blank"><i class="fas fa-user"></i>&nbsp;Inloggen</a>
+                        <li><button class="btnModalPopup"> login plox </button><div id="modal_dialog" style="display: none">
+                                
+
+                 @Html.ValidationSummary()<form method="post">
+
+        <input type="text" name="username" id="username" placeholder="Username" value="" /> @Html.ValidationMessage("username") <br />
+        <input type="password" name="password" id="password" placeholder="password" value="" />  @Html.ValidationMessage("password")<br />
+        <input type="submit" name="submit" value="Login" />
+                            </form>
+</div>
                         </li>
 
                         <li>

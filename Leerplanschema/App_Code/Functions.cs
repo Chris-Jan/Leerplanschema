@@ -23,7 +23,7 @@ public class Functions
     public static bool Login(string naam, string wachtwoord)
     {
         Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
-        var query = "SELECT Username, Password FROM Docent WHERE naam = @0 AND wachtwoord = @1";
+        var query = "SELECT naam, wachtwoord FROM Docent WHERE naam = @0 AND wachtwoord = @1";
         var userCheck = db.QuerySingle(query, naam, wachtwoord);
         if (userCheck != null)
         {
