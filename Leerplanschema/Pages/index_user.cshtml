@@ -93,44 +93,44 @@
 </head>
 
 <body>
-          
-<form method="post">
-    <div id="menu">
-        <ul class="ulclass">
-            <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a></li>
-            <li class="liclass"><a href="AD-ITSM.cshtml">AD-ITSM</a></li>
-            <li class="liclass"><a href="TechInformatica.cshtml">Technische Informatica</a></li>
-        </ul>
-    </div>
-    <div id="HBO-ICT" class="inhoud">
+
+    <form method="post">
         <div id="menu">
             <ul class="ulclass">
-                <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
-                <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
-                <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
-                <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a></li>
+                <li class="liclass"><a href="AD-ITSM.cshtml">AD-ITSM</a></li>
+                <li class="liclass"><a href="TechInformatica.cshtml">Technische Informatica</a></li>
             </ul>
         </div>
-    </div>
-    <div id="AD-ITSM" class="inhoud ">
-        <div id="menu">
-            <ul class="ulclass ">
-                <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
-                <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
-            </ul>
+        <div id="HBO-ICT" class="inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div id="TechInformatica" class="inhoud">
-        <div id="menu">
-            <ul class="ulclass">
-                <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
-                <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
-                <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
-                <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
-            </ul>
+        <div id="AD-ITSM" class="inhoud ">
+            <div id="menu">
+                <ul class="ulclass ">
+                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</form>
+        <div id="TechInformatica" class="inhoud">
+            <div id="menu">
+                <ul class="ulclass">
+                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
+                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
+                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </form>
     <div id="HBO-ICT">
         <div id="HI-J1" class="Inhoud">
             <div id="menu">
@@ -157,7 +157,7 @@
                         <th scope="col">Taal</th>
                         <th scope="col">Examinator</th>
                     </tr>
-               </thead>
+                </thead>
                 <tbody>
                     @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
                     {
@@ -175,7 +175,7 @@
                             <td>@row.examinator</td>
                         </tr>
                     }
-                 </tbody>
+                </tbody>
             </table>
         </div>
         <div id="HI-J2" class="Inhoud">
@@ -449,9 +449,10 @@
             [Insert tabel hier]
         </div>
     </div>
+    <footer>
+        @RenderPage("~/Shared/_footer.cshtml")
+    </footer>
 </body>
 
-<footer>
-    @RenderPage("~/Shared/_footer.cshtml")
-</footer>
+
 </html>
