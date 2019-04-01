@@ -7,7 +7,7 @@
     if (IsPost && Request.Form["ICT"] == "HBO-ICT")
     {
         studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
-        Functions.SelectStudieoverview("HBO-ICT");
+        Functions.ShowOverzicht("HBO-ICT");
     }
 
     if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
@@ -159,7 +159,7 @@
                     </tr>
                </thead>
                 <tbody>
-                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
                     {
                         <tr>
                             <td>@row.periode</td>
@@ -204,7 +204,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
                     {
                         <tr>
                             <td>@row.periode</td>
@@ -249,7 +249,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
                     {
                         <tr>
                             <td>@row.periode</td>
@@ -294,7 +294,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
                     {
                         <tr>
                             <td>@row.periode</td>
@@ -340,7 +340,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ITSM"]))
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ITSM"]))
                     {
                         <tr>
                             <td>@row.periode</td>
@@ -383,7 +383,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var row in Functions.SelectStudieoverview(Request.Form["ICT"]))
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
                     {
                         <tr>
                             <td>@row.periode</td>
