@@ -109,7 +109,7 @@ public class Functions
     public static IEnumerable<dynamic> ShowOverzicht(string naamopleiding)
     {
         Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
-        var sqlCommand = "SELECT stuOpleiding , stuCroNr, stuNiveau, stuVariant , stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging FROM Studie_overzicht WHERE styOpleiding = @0";
+        var sqlCommand = "SELECT stuOpleiding , stuCroNr, stuNiveau, stuVariant , stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging FROM Studie_overzicht WHERE stuOpleiding = @0";
         var showOverzicht = db.Query(sqlCommand, naamopleiding);
         return showOverzicht;
     }

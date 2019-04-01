@@ -4,16 +4,23 @@
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
     var studieJaar = "";
 
-    //if (IsPost && Request.Form["ICT"] == "HBO-ICT")
-    //{
-    //    studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
-    //    Functions.SelectStudieoverview("HBO-ICT");
-    //}
+    if (IsPost && Request.Form["ICT"] == "HBO-ICT")
+    {
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+        Functions.ShowOverzicht("HBO-ICT");
+    }
 
-    //if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
-    //{
-    //    studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
-    //}
+    if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
+    {
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
+    }
+
+    if (IsPost && Request.Form["Tech"] == "TechInformatica")
+    {
+        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+    }
+
+
 
 
 }
@@ -56,6 +63,10 @@
         .active {
             background-color: white;
         }
+
+        .table {
+            text-align: right;
+        }
     </style>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
@@ -82,6 +93,8 @@
 </head>
 
 <body>
+          
+<form method="post">
     <div id="menu">
         <ul class="ulclass">
             <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a></li>
@@ -117,6 +130,7 @@
             </ul>
         </div>
     </div>
+</form>
     <div id="HBO-ICT">
         <div id="HI-J1" class="Inhoud">
             <div id="menu">
@@ -127,7 +141,42 @@
                     <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
                 </ul>
             </div>
-            [Insert tabel hier]
+
+            <table style="width:auto; margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+               </thead>
+                <tbody>
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                 </tbody>
+            </table>
         </div>
         <div id="HI-J2" class="Inhoud">
             <div id="menu">
@@ -138,7 +187,41 @@
                     <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
                 </ul>
             </div>
-            [Insert tabel hier]
+            <table style="width:auto; margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
         <div id="HI-J3" class="Inhoud">
             <div id="menu">
@@ -149,7 +232,41 @@
                     <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
                 </ul>
             </div>
-            [Insert tabel hier]
+            <table style="width:auto; margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
         <div id="HI-J4" class="Inhoud">
             <div id="menu">
@@ -160,7 +277,41 @@
                     <li class="liclass"><a href="HI-J4.cshtml" style="background-color:#007879">Jaar 4</a></li>
                 </ul>
             </div>
-            [Insert tabel hier]
+            <table style="width:auto; margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -172,7 +323,41 @@
                     <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
                 </ul>
             </div>
-            [Insert tabel hier]
+            <table style="width:auto; margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ITSM"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
         <div id="ADI-J2" class="Inhoud">
             <div id="menu">
@@ -181,7 +366,41 @@
                     <li class="liclass"><a href="ADI-J2.cshtml" style="background-color:#007879">Jaar 2</a></li>
                 </ul>
             </div>
-            [Insert tabel hier]
+            <table style="width:auto; margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
     <div id="TechnInformatica">
@@ -232,6 +451,7 @@
     </div>
 </body>
 
-
-@RenderPage("~/Shared/_footer.cshtml")
+<footer>
+    @RenderPage("~/Shared/_footer.cshtml")
+</footer>
 </html>
