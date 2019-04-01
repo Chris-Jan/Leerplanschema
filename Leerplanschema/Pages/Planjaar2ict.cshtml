@@ -1,0 +1,81 @@
+﻿@using WebMatrix.Data
+@{
+    var studieOpleiding = Convert.ToString(Session["Opleidingadd"]);
+    string Leerjaar2 = "2";
+
+    if (IsPost && Request.Form["addRow"] == "RijToevoegen")
+    {
+        var naamOpleiding = Convert.ToString(Session["Opleidingadd"]);
+        Functions.InsertRow(naamOpleiding, Request.Form["periode"], Request.Form["faseleerjaar"], Request.Form["coordinator"], Request.Form["keuzeverplicht"], Request.Form["titelonderwijs"], Request.Form["studiepunten"], Request.Form["titeltoets"], Request.Form["wijzevtoetsing"], Request.Form["slagingsnorm"], Request.Form["taal"], Request.Form["examinator"], Leerjaar2);
+
+    }
+
+
+}
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h1l>Leerjaar @Leerjaar2</h1l>
+    <div class="table-responsive">
+        <form method="post">
+            <table class="table table-bordered table-light">
+                <thead class="thead-dark">
+                    <tr class="row">
+                        <th scope="col">Periode</th>
+                        <th scope="col">Fase / Leerjaar / Module</th>
+                        <th scope="col">Coördinator</th>
+                        <th scope="col">Keuze/Verplicht</th>
+                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                        <th scope="col">Studiepunten</th>
+                        <th scope="col">Titel toets</th>
+                        <th scope="col">Wijze van toetsing</th>
+                        <th scope="col">Slagingsnorm</th>
+                        <th scope="col">Taal</th>
+                        <th scope="col">Examinator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Functions.AddRow(studieOpleiding))
+                    {
+                        <tr>
+                            <td>@row.periode</td>
+                            <td>@row.faseleerjaar</td>
+                            <td>@row.coordinator</td>
+                            <td>@row.keuzeverplicht</td>
+                            <td>@row.titelonderwijs</td>
+                            <td>@row.studiepunten</td>
+                            <td>@row.titeltoets</td>
+                            <td>@row.wijzevtoetsing</td>
+                            <td>@row.slagingsnorm</td>
+                            <td>@row.taal</td>
+                            <td>@row.examinator</td>
+                        </tr>
+                    }
+
+                    <tr class="row">
+                        <td class="rowinput"><input class="form-control" type="text" name="periode" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="faseleerjaar" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="coordinator" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="keuzeverplicht" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="titelonderwijs" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="studiepunten" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="titeltoets" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="wijzevtoetsing" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="slagingsnorm" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="taal" /></td>
+                        <td class="rowinput"><input class="form-control" type="text" name="examinator" /></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button name="addRow" value="RijToevoegen">+</button>
+        </form>
+    </div>
+</body>
+</html>@{
+
+}
