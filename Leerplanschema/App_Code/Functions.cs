@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using WebMatrix.Data;
+using System.Data.SqlClient;
+using System.Web.Services;
+
+
 
 /// <summary>
 /// Summary description for Functions
@@ -125,4 +131,12 @@ public class Functions
         var queryCheck = db.Query(query, studienaam, leerjaar);
         return queryCheck;
     }
+
+     
+    public void Page_Load(object sender, EventArgs e)
+    {
+        
+    }
+
+    
 }
