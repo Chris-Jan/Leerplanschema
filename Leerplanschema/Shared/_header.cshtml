@@ -45,6 +45,7 @@
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
           rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="~/Shared/JavaScript.js"></script>
+  <link rel="icon" type="image/png" href="https://www.nhlstenden.com/sites/all/themes/nhlstenden/images/favicons/favicon-16x16.png" sizes="16x16" />
 </head>
 <body class="html not-front not-logged-in two-sidebars page-node page-node- page-node-7225 node-type-study-full-time domain-nhl i18n-nl node-study cookieControl-processed">
 
@@ -64,16 +65,17 @@
             <div id="block-menu-menu-top-menu" class="block block-menu first last">
                 <div class="content">
                     <ul class="nav list-unstyled nav--level-1">
-                        <li><button class="btnModalPopup"> login plox </button><div id="modal_dialog" style="display: none">
-                                
+                        <li>
+                            <button class="btnModalPopup" style="background-color:#F3F4F5;border:none;"> <i class="fas fa-user"></i>&nbsp;<b>Login</b></button><div id="modal_dialog" style="display: none">
 
-                 @Html.ValidationSummary()<form method="post">
 
-        <input type="text" name="username" id="username" placeholder="Username" value="" /> @Html.ValidationMessage("username") <br />
-        <input type="password" name="password" id="password" placeholder="password" value="" />  @Html.ValidationMessage("password")<br />
-        <input type="submit" name="submit" value="Login" />
-                            </form>
-</div>
+                                @Html.ValidationSummary()<form method="post">
+
+                                    <input type="text" name="username" id="username" placeholder="Username" value="" /> @Html.ValidationMessage("username") <br />
+                                    <input type="password" name="password" id="password" placeholder="password" value="" />  @Html.ValidationMessage("password")<br />
+                                    <input type="submit" name="submit" value="Login" />
+                                </form>
+                            </div>
                         </li>
 
                         <li>
