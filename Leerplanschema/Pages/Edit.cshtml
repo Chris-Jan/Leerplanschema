@@ -1,0 +1,75 @@
+﻿@using WebMatrix.Data;
+
+@{
+    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+
+    var studieOpleiding = "HBO-ICT";
+    var leerjaar = "1";
+
+    if (IsPost && Request.Form["opslaan"] == "Opslaan")
+    {
+        Functions.UpdateOverview(studieOpleiding, Request.Form["periode"], Request.Form["faseleerjaar"], Request.Form["coordinator"], Request.Form["keuzeverplicht"], Request.Form["titelonderwijs"], Request.Form["studiepunten"], Request.Form["titeltoets"], Request.Form["wijzevtoetsing"], Request.Form["slagingsnorm"], Request.Form["taal"], Request.Form["examinator"], leerjaar);
+    }
+
+
+}
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<script>
+    $(document).ready(function () {
+    $("#edit").click(function () {
+        $('.change').prop('readonly', false);
+    });
+
+        $("#target").click(function () {
+            $('.change').prop('readonly', true)
+        })
+    });
+
+</script>
+<form method="post">
+    <table>
+        <thead class="thead-dark">
+            <tr class="firstcolumn">
+                <th scope="col">Periode</th>
+                <th scope="col">Fase / Leerjaar / Module</th>
+                <th scope="col">Coördinator</th>
+                <th scope="col">Keuze/Verplicht</th>
+                <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                <th scope="col">Studiepunten</th>
+                <th scope="col">Titel toets</th>
+                <th scope="col">Wijze van toetsing</th>
+                <th scope="col">Slagingsnorm</th>
+                <th scope="col">Taal</th>
+                <th scope="col">Examinator</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Functions.AddRow(studieOpleiding))
+            {
+             <tr>
+                <td><input type="text" class="change" name="periode" value="@row.periode" /></td>
+                <td><input type="text" class="change" name="faseleerjaar" value="@row.faseleerjaar" /></td>
+                <td><input type="text" class="change" name="coordinator" value="@row.coordinator" /></td>
+                <td><input type="text" class="change" name="keuzeverplicht" readonly value="@row.keuzeverplicht" /></td>
+                <td><input type="text" class="change" name="titelonderwijs" readonly value="@row.titelonderwijs" /></td>
+                <td><input type="text" class="change" name="studiepunten" readonly value="@row.studiepunten" /></td>
+                <td><input type="text" class="change" name="titeltoets" readonly value="@row.titeltoets" /></td>
+                <td><input type="text" class="change" name="wijzevtoetsing" readonly value="@row.wijzevtoetsing" /></td>
+                <td><input type="text" class="change" name="slagingsnorm" readonly value="@row.slagingsnorm" /></td>
+                <td><input type="text" class="change" name="taal" readonly value="@row.taal" /></td>
+                <td><input type="text" class="change" name="examinator" readonly value="@row.examinator" /></td>
+             </tr>
+             }
+        </tbody>
+    </table>
+    <input type="submit" name="edit" class="btn" id="edit" value="Edit xdD!" />
+    <input type="submit" name="opslaan" class="btn btn-primary" id="target" value="Opslaan" />
+</form> 
+@*<button type="button" name="edit" class="btn" id="edit">Pas aan</button>
+<button type="button" name="opslaan" class="btn btn-primary" id="target">Opslaan</button>*@
