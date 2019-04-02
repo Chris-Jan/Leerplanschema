@@ -1,23 +1,68 @@
-﻿@using WebMatrix.Data;
+@using WebMatrix.Data;
 
 @{
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
     var studieJaar = "";
-
-    if (IsPost && Request.Form["ICT"] == "HBO-ICT")
+    var studieopleiding = "";
+    var opleiding = "";
+    if (Request.QueryString["id"] == "HBO-ICT")
     {
-        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
-        Functions.ShowOverzicht("HBO-ICT");
+        studieopleiding = "HBO-ICT";
+        if (Request.QueryString["leerjaar"] == "1")
+        {
+            studieJaar = "1";
+            Functions.SelectStudieoverview2(studieopleiding, studieJaar);
+
+        }
+        if (Request.QueryString["leerjaar"] == "2")
+        {
+            studieJaar = "2";
+            Functions.SelectStudieoverview2(studieopleiding, studieJaar);
+        }
+        if (Request.QueryString["leerjaar"] == "3")
+        {
+
+            studieJaar = "3";
+            Functions.SelectStudieoverview2(studieopleiding, studieJaar);
+        }
+        if (Request.QueryString["leerjaar"] == "4")
+        {
+            studieJaar = "4";
+            Functions.SelectStudieoverview2(studieopleiding, studieJaar);
+        }
+    }
+    if (Request.QueryString["id"] == "AD-ITSM")
+    {
+        studieopleiding = "AD-ITSM";
+        if (Request.QueryString["leerjaar"] == "1")
+        {
+            studieJaar = "1";
+        }
+        if (Request.QueryString["leerjaar"] == "2")
+        {
+            studieJaar = "2";
+        }
     }
 
-    if (IsPost && Request.Form["ITSM"] == "AD-ITSM")
+    if (Request.QueryString["TechInformatica"] == "Techinformatica")
     {
-        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 2");
-    }
-
-    if (IsPost && Request.Form["Tech"] == "TechInformatica")
-    {
-        studieJaar = db.QueryValue("SELECT leerjaar.studiejaar FROM [Leerjaar] WHERE leerjaar.leerjaarID = 3");
+        studieopleiding = "Technische informatica";
+        if (Request.QueryString["leerjaar"] == "1")
+        {
+            studieJaar = "1";
+        }
+        if (Request.QueryString["leerjaar"] == "2")
+        {
+            studieJaar = "2";
+        }
+        if (Request.QueryString["leerjaar"] == "3")
+        {
+            studieJaar = "3";
+        }
+        if (Request.QueryString["leerjaar"] == "4")
+        {
+            studieJaar = "4";
+        }
     }
 
 
@@ -30,7 +75,38 @@
     <style type="text/css">
         .inhoud {
             display: none;
-            
+        }
+
+        .ulclass {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #008487;
+            text-align: center;
+        }
+
+        .liclass {
+            display: inline;
+        }
+
+            .liclass a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                margin: 0px 60px;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+                .liclass a:hover:not(.active) {
+                    background-color: #008487;
+                    color: black;
+                }
+
+        .active {
+            background-color: white;
         }
 
         .table {
@@ -48,240 +124,135 @@
                 id = id.substring(0, id.indexOf('.'));
                 $(this).attr('rel', id);
             });
-            $('#home').show();
-            $('#menu a').click(function (e) {
+           
+                $('#home').show();
+                $('#menu a').click(function (e) {
+                    e.preventDefault();
+                    $('.inhoud').hide();
+                    $('table').show()
+                    $('#' + $(this).attr('rel')).show();
+                    location.hash = '#!/' + $(this).attr('rel');
+                    return false;
+                }
+                );
+
+        });
+      
+
+        $(document).ready(function () {
+            $('#menu2 a').each(function () {
+                id2 = $(this).attr();
+                id2 = id2.substring(id2.lastIndexOf('/'));
+                id2 = id2.substring(0, id2.indexOf('.'));
+                $(this).attr('rel', id2);
+            });
+            
+            $('#home2').show();
+            $('#menu2 a').click(function (e) {
                 e.preventDefault();
-                $('.inhoud').hide();
-                $('#' + $(this).attr('rel')).show();
+                $('table').show();
+                $('#' + $(this).attr('rel')).show('.inhoud');
                 location.hash = '#!/' + $(this).attr('rel');
                 return false;
             });
         });
-
+        
     </script>
 </head>
 
 <body>
-    @*Bovenste navbar*@
+
+
     <form method="post">
         <div id="menu">
             <ul class="ulclass">
-                <li class="liclass"><a href="HBO-ICT.cshtml"><b>HBO-ICT</b></a></li>
-                <li class="liclass"><a href="AD-ITSM.cshtml"><b>AD-ITSM</b></a></li>
-                <li class="liclass"><a href="TechInformatica.cshtml"><b>Technische Informatica</b></a></li>
+
+                <li class="liclass"><a href="HBO-ICT.cshtml">HBO-ICT</a> </li>
+                <li class="liclass"><a href="AD-ITSM.cshtml">AD-ITSM</a></li>
+                <li class="liclass"><a href="TechInformatica.cshtml">Technische Informatica</a></li>
             </ul>
+           
         </div>
-        @*Onderste navbar*@
         <div id="HBO-ICT" class="inhoud">
-            <div id="menu">
+            <div id="menu2">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=4">Jaar 4</a></li>
                 </ul>
+              
+              
             </div>
         </div>
-        <div id="AD-ITSM" class="inhoud ">
-            <div id="menu">
+        <div id="AD-ITSM" class="inhoud">
+            <div id="menu2">
                 <ul class="ulclass ">
-                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=AD-ITSM&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=AD-ITSM&leerjaar=2">Jaar 2</a></li>
                 </ul>
+              
             </div>
+
         </div>
         <div id="TechInformatica" class="inhoud">
-            <div id="menu">
+            <div id="menu2">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
         </div>
-   @*Informatie tabellen*@
     </form>
     <div id="HBO-ICT">
         <div id="HI-J1" class="Inhoud">
-            <div id="menu">
+            <div id="menu2">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="HI-J1.cshtml" style="background-color: #007478;">Jaar 1</a></li>
-                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=4">Jaar 4</a></li>
                 </ul>
+
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+           
+
         </div>
         <div id="HI-J2" class="Inhoud">
-            <div id="menu">
+            <div id="menu2">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="HI-J2.cshtml" style="background-color: #007478;">Jaar 2</a></li>
-                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+          
         </div>
         <div id="HI-J3" class="Inhoud">
-            <div id="menu">
+            <div id="menu2">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="HI-J3.cshtml" style="background-color: #007478;">Jaar 3</a></li>
-                    <li class="liclass"><a href="HI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+    
         </div>
         <div id="HI-J4" class="Inhoud">
-            <div id="menu">
+            <div id="menu2">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="HI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="HI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="HI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="HI-J4.cshtml" style="background-color:#007478;">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=HBO-ICT&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+           
         </div>
     </div>
 
@@ -289,272 +260,171 @@
         <div id="ADI-J1" class="Inhoud">
             <div id="menu">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="ADI-J1.cshtml" style="background-color: #007478;">Jaar 1</a></li>
-                    <li class="liclass"><a href="ADI-J2.cshtml">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=AD-ITSM&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=AD-ITSM&leerjaar=2">Jaar 2</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ITSM"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+           
         </div>
         <div id="ADI-J2" class="Inhoud">
             <div id="menu">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="ADI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="ADI-J2.cshtml" style="background-color: #007478;">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=AD-ITSM&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=AD-ITSM&leerjaar=2">Jaar 2</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+          
         </div>
     </div>
     <div id="TechnInformatica">
         <div id="TI-J1" class="Inhoud">
             <div id="menu">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="TI-J1.cshtml" style="background-color: #007478;">Jaar 1</a></li>
-                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            [Insert tabel hier]
         </div>
         <div id="TI-J2" class="Inhoud">
             <div id="menu">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="TI-J2.cshtml" style="background-color: #007478;">Jaar 2</a></li>
-                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            [Insert tabel hier]
         </div>
         <div id="TI-J3" class="Inhoud">
             <div id="menu">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="TI-J3.cshtml" style="background-color: #007478;">Jaar 3</a></li>
-                    <li class="liclass"><a href="TI-J4.cshtml">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            [Insert tabel hier]
         </div>
         <div id="TI-J4" class="Inhoud">
             <div id="menu">
                 <ul class="ulclass">
-                    <li class="liclass"><a href="TI-J1.cshtml">Jaar 1</a></li>
-                    <li class="liclass"><a href="TI-J2.cshtml">Jaar 2</a></li>
-                    <li class="liclass"><a href="TI-J3.cshtml">Jaar 3</a></li>
-                    <li class="liclass"><a href="TI-J4.cshtml" style="background-color: #007478;">Jaar 4</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=1">Jaar 1</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=2">Jaar 2</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=3">Jaar 3</a></li>
+                    <li class="liclass"><a href="~/Pages/index_user.cshtml?id=TechInformatica&leerjaar=4">Jaar 4</a></li>
                 </ul>
             </div>
-            <table style="width:auto; margin:0 auto;">
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th scope="col">Periode</th>
-                        <th scope="col">Fase / Leerjaar / Module</th>
-                        <th scope="col">Coördinator</th>
-                        <th scope="col">Keuze/Verplicht</th>
-                        <th scope="col">Titel: Onderwijseenheid NL/EN</th>
-                        <th scope="col">Studiepunten</th>
-                        <th scope="col">Titel toets</th>
-                        <th scope="col">Wijze van toetsing</th>
-                        <th scope="col">Slagingsnorm</th>
-                        <th scope="col">Taal</th>
-                        <th scope="col">Examinator</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in Functions.ShowOverzicht(Request.Form["ICT"]))
-                    {
-                        <tr>
-                            <td>@row.periode</td>
-                            <td>@row.faseleerjaar</td>
-                            <td>@row.coordinator</td>
-                            <td>@row.keuzeverplicht</td>
-                            <td>@row.titelonderwijs</td>
-                            <td>@row.studiepunten</td>
-                            <td>@row.titeltoets</td>
-                            <td>@row.wijzevtoetsing</td>
-                            <td>@row.slagingsnorm</td>
-                            <td>@row.taal</td>
-                            <td>@row.examinator</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            [Insert tabel hier]
         </div>
     </div>
+
+    
+    <table style="width:auto; margin:0 auto;">
+        @*@if (Request.QueryString["leerjaar"] == "1")*@
+        {
+            
+            <thead>
+                <tr>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Fase / Leerjaar / Module</th>
+                    <th scope="col">Coördinator</th>
+                    <th scope="col">Keuze/Verplicht</th>
+                    <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                    <th scope="col">Studiepunten</th>
+                    <th scope="col">Titel toets</th>
+                    <th scope="col">Wijze van toetsing</th>
+                    <th scope="col">Slagingsnorm</th>
+                    <th scope="col">Taal</th>
+                    <th scope="col">Examinator</th>
+                </tr>
+            </thead>}
+        @if (Request.QueryString["leerjaar"] == "2")
+        {
+            //string okedan = "leerjaar" + studieJaar;
+
+            <thead>
+ 
+                <tr>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Fase / Leerjaar / Module</th>
+                    <th scope="col">Coördinator</th>
+                    <th scope="col">Keuze/Verplicht</th>
+                    <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                    <th scope="col">Studiepunten</th>
+                    <th scope="col">Titel toets</th>
+                    <th scope="col">Wijze van toetsing</th>
+                    <th scope="col">Slagingsnorm</th>
+                    <th scope="col">Taal</th>
+                    <th scope="col">Examinator</th>
+                </tr>
+            </thead>}
+        @if (Request.QueryString["leerjaar"] == "3")
+        {
+            //"LeErJaAr" studieJaar;
+            <thead>
+                <tr>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Fase / Leerjaar / Module</th>
+                    <th scope="col">Coördinator</th>
+                    <th scope="col">Keuze/Verplicht</th>
+                    <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                    <th scope="col">Studiepunten</th>
+                    <th scope="col">Titel toets</th>
+                    <th scope="col">Wijze van toetsing</th>
+                    <th scope="col">Slagingsnorm</th>
+                    <th scope="col">Taal</th>
+                    <th scope="col">Examinator</th>
+                </tr>
+            </thead>}
+        @if (Request.QueryString["leerjaar"] == "4")
+        {
+            //"LeErJaAr" studieJaar;
+            <thead>
+                <tr>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Fase / Leerjaar / Module</th>
+                    <th scope="col">Coördinator</th>
+                    <th scope="col">Keuze/Verplicht</th>
+                    <th scope="col">Titel: Onderwijseenheid NL/EN</th>
+                    <th scope="col">Studiepunten</th>
+                    <th scope="col">Titel toets</th>
+                    <th scope="col">Wijze van toetsing</th>
+                    <th scope="col">Slagingsnorm</th>
+                    <th scope="col">Taal</th>
+                    <th scope="col">Examinator</th>
+                </tr>
+            </thead>}
+        <tbody>
+          
+            @foreach (var row in Functions.SelectStudieoverview2(studieopleiding, studieJaar))
+            {
+                <tr>
+                    <td>@row.periode</td>
+                    <td>@row.faseleerjaar</td>
+                    <td>@row.coordinator</td>
+                    <td>@row.keuzeverplicht</td>
+                    <td>@row.titelonderwijs</td>
+                    <td>@row.studiepunten</td>
+                    <td>@row.titeltoets</td>
+                    <td>@row.wijzevtoetsing</td>
+                    <td>@row.slagingsnorm</td>
+                    <td>@row.taal</td>
+                    <td>@row.examinator</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <footer>
+        @RenderPage("~/Shared/_footer.cshtml")
+    </footer>
 </body>
-@RenderPage("~/Shared/_footer.cshtml")
+
+
+ 
 </html>
