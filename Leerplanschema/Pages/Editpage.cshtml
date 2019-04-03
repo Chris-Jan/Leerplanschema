@@ -1,0 +1,101 @@
+﻿@using WebMatrix.Data;
+@{
+    Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
+    var naamOpleiding = Convert.ToString(Session["Opleidingadd"]);
+    var sqlCommand = "SELECT stuOpleiding , stuCroNr, stuNiveau, stuVariant , stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging FROM Studie_overzicht WHERE stuOpleiding = @0";
+    var showOverzicht = db.Query(sqlCommand, naamOpleiding);
+    var bitchch = "HBO-ICT";
+
+    var studieOpleiding = Request.Form["AddOpleiding"];
+    var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
+    var studieniveau = Request.Form["AddNiveau"];
+    var studieVariant = Request.Form["AddVariant"];
+    var studieFlexOnd = Request.Form["AddFlexOnd"];
+    var studieVraFin = Request.Form["AddVraFin"];
+    var studieVerTra = Request.Form["AddVerTra"];
+    var studieSpeTra = Request.Form["AddSpeTra"];
+    var studieVesPla = Request.Form["AddVesPla"];
+
+    if (IsPost && Request.Form["buttonSubmit"] == "Submit Changes")
+    {
+        var updateCommand = "UPDATE Studie_overzicht SET stuOpleiding=0, stuCroNr=@1 ,stuNiveau=@2, stuVariant=@3, stuFlexOnderwijs=@4, stuVraFinanciering=@5, stuVerTraject=@6, stuSpeTraject=@7 ,vestiging=@8 WHERE stuOpleiding=@9";
+        db.Execute(updateCommand, Request.Form["opleiding"], Request.Form["crohonummer"], Request.Form["Studieniveau"], Request.Form["variant"], Request.Form["flex"], Request.Form["vraa"], Request.Form["vertra"], Request.Form["spetra"], Request.Form["vespla"], bitchch);
+    }
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Edit Studie</title>
+    <style>
+        .validation-summary-errors {
+            border: 2px dashed red;
+            color: red;
+            font-weight: bold;
+            margin: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Studie</h1>
+    @Html.ValidationSummary()
+    <form method="post">
+        <fieldset>
+            <legend>Movie Information</legend>
+
+            <p>
+                <label for="studieOpleiding">Opleiding:</label>
+                <input type="text" name="opleiding" value="@studieOpleiding" />
+            </p>
+
+            <p>
+                <label for="studieCrohonummer">Crohonummer:</label>
+                <input type="text" name="crohonummer" value="@studieCrohonummer" />
+            </p>
+
+            <p>
+                <label for="studieniveau">Studieniveau:</label>
+                <input type="text" name="Studieniveau" value="@studieniveau" />
+            </p>
+
+            <p>
+                <label for="studieVariant">Variant:</label>
+                <input type="text" name="variant" value="@studieVariant" />
+            </p>
+
+            <p>
+                <label for="studieFlexOnd">Flex j/n:</label>
+                <input type="text" name="flex" value="@studieFlexOnd" />
+            </p>
+
+            <p>
+                <label for="studieVraFin">vraag financiering:</label>
+                <input type="text" name="vraa" value="@studieVraFin" />
+            </p>
+            <p>
+                <label for="studieVerTra">Versneld Traject:</label>
+                <input type="text" name="vertra" value="@studieVerTra" />
+            </p>
+
+
+            <p>
+                <label for="studieSpeTra">Speciale traject:</label>
+                <input type="text" name="spetra" value="@studieSpeTra" />
+            </p>
+
+            <p>
+                <label for="studieVesPla">Plaats:</label>
+                <input type="text" name="vespla" value="@studieVesPla" />
+            </p>
+
+         @*   <input type="hidden" name="movieid" value="@movieId" />*@
+
+            <p><input type="submit" name="buttonSubmit" value="Submit Changes" /></p>
+        </fieldset>
+    </form>
+    <p><a href="~/Pages/index_adm.cshtml">Return to movie listing</a></p>
+</body>
+</html>

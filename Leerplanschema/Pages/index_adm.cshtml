@@ -36,7 +36,8 @@
     {
         Session["Opleidingadd"] = studieOpleiding;
         Functions.AddOverzicht(studieOpleiding, studieCrohonummer, studieniveau, studieVariant, studieFlexOnd, studieVraFin, studieVerTra, studieSpeTra, studieVesPla);
-        Response.Redirect("~/Pages/AlgemeenOverzicht.cshtml");
+     //   Response.Redirect("~/Pages/AlgemeenOverzicht.cshtml");
+      //    Response.Redirect("~/Pages/Load.cshtml");
     }
 
 
@@ -57,7 +58,8 @@
     <script type="text/javascript" src="~/Shared/JavaScript.js"></script>
 </head>
 <body>
-    <form method="post">
+    @* hier heb ik de form id= "demo" gegeven *@
+    <form method="post" id="demo">
         <table class="table table-light">
             <thead class="thead-dark">
                 <tr>
@@ -109,11 +111,29 @@
                     <td> @studieVesPla</td>
                     <td><input type="text" name="AddVesPla" placeholder="Vestigings..." value="" /></td>
                 </tr>
-                <tr> <td> <input type="submit" name="addOverzicht" value="Toevoegen" /></td></tr>
+                <tr> <td> <input type="submit" name="addOverzicht" value="Toevoegen" onclick="load()">show lijst</td></tr>
+                
             </thead>
+            
         </table>
+        <button type="button" onclick="load()">change content </button>
         @*<button name="addOverzicht" value="Toevoegen">Toevoegen</button>*@
     </form>
+    <script>
+        function load() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          // hier haalt de form
+     document.getElementById("demo").innerHTML = this.responseText;
+      }
+            };
+            // hier wil ik de Load pagina ophalen. zit in het zelfde mapje "Pages"
+    xhttp.open("GET", "Load.cshtml", true);
+    xhttp.send();
+    }
+    </script>
+   
 
 </body>
 </html>
