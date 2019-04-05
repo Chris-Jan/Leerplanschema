@@ -2,9 +2,9 @@
 @{
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
     var naamOpleiding = Convert.ToString(Session["Opleidingadd"]);
-    var sqlCommand = "SELECT stuOpleiding , stuCroNr, stuNiveau, stuVariant , stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging FROM Studie_overzicht WHERE stuOpleiding = @0";
+    var sqlCommand = "SELECT stuOpleiding , stuCroNr, stuNiveau, stuVariant , stuFlexOnderwijs, stuVraFinanciering, stuVerTraject, stuSpeTraject, vestiging FROM Studie_overzicht WHERE stuOpleiding ='HBO-ICT'";
     var showOverzicht = db.Query(sqlCommand, naamOpleiding);
-    var bitchch = "HBO-ICT";
+    //var bitchch = "HBO-ICT";
 
     var studieOpleiding = Request.Form["AddOpleiding"];
     var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
@@ -18,8 +18,9 @@
 
     if (IsPost && Request.Form["buttonSubmit"] == "Submit Changes")
     {
-        var updateCommand = "UPDATE Studie_overzicht SET stuOpleiding=0, stuCroNr=@1 ,stuNiveau=@2, stuVariant=@3, stuFlexOnderwijs=@4, stuVraFinanciering=@5, stuVerTraject=@6, stuSpeTraject=@7 ,vestiging=@8 WHERE stuOpleiding=@9";
-        db.Execute(updateCommand, Request.Form["opleiding"], Request.Form["crohonummer"], Request.Form["Studieniveau"], Request.Form["variant"], Request.Form["flex"], Request.Form["vraa"], Request.Form["vertra"], Request.Form["spetra"], Request.Form["vespla"], bitchch);
+        var stuOpleiding = Request.Form["opleiding"];
+        var updateCommand = "UPDATE Studie_overzicht SET stuOpleiding=@0, stuCroNr=@1 ,stuNiveau=@2, stuVariant=@3, stuFlexOnderwijs=@4, stuVraFinanciering=@5, stuVerTraject=@6, stuSpeTraject=@7 ,vestiging=@8 WHERE stuOpleiding=@9";
+        db.Execute(updateCommand, Request.Form["opleiding"], Request.Form["crohonummer"], Request.Form["Studieniveau"], Request.Form["variant"], Request.Form["flex"], Request.Form["vraa"], Request.Form["vertra"], Request.Form["spetra"], Request.Form["vespla"], stuOpleiding);
     }
 }
 
