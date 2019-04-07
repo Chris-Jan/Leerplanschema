@@ -3,6 +3,7 @@
 @{
     Database db = Database.OpenConnectionString(Functions.connectionstring, Functions.provider);
 
+    Validation.RequireField("studieOpleiding", "Er moet een opleidingsnaam worden ingevuld");
     var studieOpleiding = Request.Form["AddOpleiding"];
     var studieCrohonummer = Convert.ToInt32(Request.Form["AddCroNummer"]);
     var studieniveau = Request.Form["AddNiveau"];
@@ -56,11 +57,25 @@
     <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css"
           rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="~/Shared/JavaScript.js"></script>
+    <script>
+        function load() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          // hier haalt de form
+     document.getElementById("demo").innerHTML = this.responseText;
+      }
+            };
+            // hier wil ik de Load pagina ophalen. zit in het zelfde mapje "Pages"
+    xhttp.open("GET", "Load.cshtml", true);
+    xhttp.send();
+    }
+    </script>
 </head>
 <body>
     @* hier heb ik de form id= "demo" gegeven *@
     <form method="post" id="demo">
-        <table class="table table-light">
+        <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">LEERPLAN</th>
@@ -119,20 +134,7 @@
         <button type="button" onclick="load()">change content </button>
         @*<button name="addOverzicht" value="Toevoegen">Toevoegen</button>*@
     </form>
-    <script>
-        function load() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-          // hier haalt de form
-     document.getElementById("demo").innerHTML = this.responseText;
-      }
-            };
-            // hier wil ik de Load pagina ophalen. zit in het zelfde mapje "Pages"
-    xhttp.open("GET", "Load.cshtml", true);
-    xhttp.send();
-    }
-    </script>
+    
    
 
 </body>
